@@ -22,9 +22,11 @@ cv.waitKey()
 
 """
 
-cv.samples.addSamplesDataSearchPath('C:/Users/haum/PycharmProjects/pcmr/images')
-img1 = cv.imread(cv.samples.findFile('spoon_l.jpg'), cv.IMREAD_GRAYSCALE)
-img2 = cv.imread(cv.samples.findFile('all2.jpg'), cv.IMREAD_GRAYSCALE)
+cv.samples.addSamplesDataSearchPath('./images/')
+img1 = cv.imread(cv.samples.findFile('tum_logo1.png'), cv.IMREAD_GRAYSCALE)
+#img1 = cv.resize(img1, (540, 540))
+img2 = cv.imread(cv.samples.findFile('tum_logo2.png'), cv.IMREAD_GRAYSCALE)
+#img2 = cv.resize(img2, (540, 540))
 if img1 is None or img2 is None:
     print('Could not open or find the images!')
     exit(0)
@@ -46,5 +48,7 @@ for m,n in knn_matches:
 img_matches = np.empty((max(img1.shape[0], img2.shape[0]), img1.shape[1]+img2.shape[1], 3), dtype=np.uint8)
 cv.drawMatches(img1, keypoints1, img2, keypoints2, good_matches, img_matches, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 #-- Show detected matches
+cv.namedWindow('Good Matches',cv.WINDOW_NORMAL)
+cv.resizeWindow('Good Matches', 1000,1500)
 cv.imshow('Good Matches', img_matches)
-cv.waitKey()
+cv.waitKey(0)
