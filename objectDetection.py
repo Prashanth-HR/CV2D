@@ -46,14 +46,14 @@ with mp_objectron.Objectron(static_image_mode=False,
         totalTime = end - start
 
         fps = 1 / totalTime
-        print("FPS: ", fps)
+        # print("FPS: ", fps)
 
         cv.putText(image, f'FPS: {int(fps)}', (20,70), cv.FONT_HERSHEY_SIMPLEX, 1.5, (0,255,0), 2)
 
         cv.imshow('Object Detection', image)
 
         # write the image frame to a video file
-        # out.write(image)
+        out.write(image)
 
         if cv.waitKey(5) & 0xFF == 27:
             break
