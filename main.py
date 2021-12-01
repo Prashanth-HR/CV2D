@@ -48,7 +48,7 @@ for m,n in knn_matches:
 img_matches = np.empty((max(img1.shape[0], img2.shape[0]), img1.shape[1]+img2.shape[1], 3), dtype=np.uint8)
 cv.drawMatches(img1, keypoints1, img2, keypoints2, good_matches, img_matches, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 #-- Show detected matches
-cv.namedWindow('Good Matches',cv.WINDOW_NORMAL)
-cv.resizeWindow('Good Matches', 1000,1500)
+#cv.namedWindow('Good Matches',cv.WINDOW_NORMAL)
+#cv.resizeWindow('Good Matches', 1000,1500)
 cv.imshow('Good Matches', img_matches)
 cv.waitKey(0)
