@@ -26,10 +26,9 @@ cy=newcam_mtx[1,2]
 
 cv.circle(img,(np.int32(cx),np.int32(cy)), 10, (0,0,255), thickness=2)
 # Create a black image, a window and bind the function to window
-cv.namedWindow('image')
-cv.setMouseCallback('image',draw_circle)
+cv.setMouseCallback(win_name,draw_circle)
 while(1):
-    cv.imshow('image',img)
+    cv.imshow(win_name,img)
     if cv.waitKey(20) & 0xFF == 27:
         break
 cv.destroyAllWindows()
