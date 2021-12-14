@@ -23,9 +23,9 @@ cv.waitKey()
 """
 
 cv.samples.addSamplesDataSearchPath('./images/')
-img1 = cv.imread(cv.samples.findFile('tum_logo1.png'), cv.IMREAD_GRAYSCALE)
+img1 = cv.imread(cv.samples.findFile('fork_l.jpg'), cv.IMREAD_GRAYSCALE)
 #img1 = cv.resize(img1, (540, 540))
-img2 = cv.imread(cv.samples.findFile('tum_logo2.png'), cv.IMREAD_GRAYSCALE)
+img2 = cv.imread(cv.samples.findFile('kfs.jpg'), cv.IMREAD_GRAYSCALE)
 #img2 = cv.resize(img2, (540, 540))
 if img1 is None or img2 is None:
     print('Could not open or find the images!')
