@@ -4,7 +4,7 @@ import numpy as np
 
 """
 
-cv.samples.addSamplesDataSearchPath('C:/Users/haum/PycharmProjects/pcmr/images')
+cv.samples.addSamplesDataSearchPath('./images/fks')
 #src = cv.imread(cv.samples.findFile(args.input), cv.IMREAD_GRAYSCALE)
 src = cv.imread(cv.samples.findFile('spoon_s.jpg'), cv.IMREAD_GRAYSCALE)
 if src is None:
@@ -22,7 +22,7 @@ cv.waitKey()
 
 """
 
-cv.samples.addSamplesDataSearchPath('./images/')
+cv.samples.addSamplesDataSearchPath('./images/fks')
 img1 = cv.imread(cv.samples.findFile('fork_l.jpg'), cv.IMREAD_GRAYSCALE)
 #img1 = cv.resize(img1, (540, 540))
 img2 = cv.imread(cv.samples.findFile('kfs.jpg'), cv.IMREAD_GRAYSCALE)
