@@ -3,8 +3,8 @@ import cv2 as cv
 import numpy as np
 import argparse
 parser = argparse.ArgumentParser(description='Code for Feature Matching with FLANN tutorial.')
-parser.add_argument('--input1', help='./images/fks/fork_l.jpg', default='./images/fks/fork_l.jpg')
-parser.add_argument('--input2', help='./images/fks/all_unordered.jpg', default='./images/fks/all1.jpg')
+parser.add_argument('--input1', help='./images/test_images/tag.jpg', default='./images/test_images/tag.jpg')
+parser.add_argument('--input2', help='./images/test_images/tag-scene.jpg', default='./images/test_images/tag-scene.jpg')
 args = parser.parse_args()
 img_object = cv.imread(args.input1, cv.IMREAD_GRAYSCALE)
 img_scene = cv.imread(args.input2, cv.IMREAD_GRAYSCALE)
@@ -22,7 +22,7 @@ keypoints_scene, descriptors_scene = detector.detectAndCompute(img_scene, None)
 matcher = cv.DescriptorMatcher_create(cv.DescriptorMatcher_FLANNBASED)
 knn_matches = matcher.knnMatch(descriptors_obj, descriptors_scene, 2)
 #-- Filter matches using the Lowe's ratio test
-ratio_thresh = 0.75
+ratio_thresh = 0.55
 good_matches = []
 for m,n in knn_matches:
     if m.distance < ratio_thresh * n.distance:
@@ -61,5 +61,6 @@ cv.line(img_matches, (int(scene_corners[2,0,0] + img_object.shape[1]), int(scene
 cv.line(img_matches, (int(scene_corners[3,0,0] + img_object.shape[1]), int(scene_corners[3,0,1])),\
     (int(scene_corners[0,0,0] + img_object.shape[1]), int(scene_corners[0,0,1])), (0,255,0), 4)
 #-- Show detected matches
+cv.namedWindow('Good Matches & Object detection', cv.WINDOW_NORMAL)
 cv.imshow('Good Matches & Object detection', img_matches)
 cv.waitKey()
