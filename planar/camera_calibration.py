@@ -1,5 +1,4 @@
 #https://docs.opencv.org/3.3.0/dc/dbb/tutorial_py_calibration.html
-
 import numpy as np
 import cv2 as cv
 import glob
@@ -9,27 +8,34 @@ workingdir="/home/pi/Desktop/Captures/"
 savedir="../camera_data/"
 
 # termination criteria
-
 criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+
 # prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....,(6,5,0)
 objp = np.zeros((7*7,3), np.float32)
 
 #add 2.5 to account for 2.5 cm per square in grid
-objp[:,:2] = np.mgrid[0:7,0:7].T.reshape(-1,2)
+objp[:,:2] = np.mgrid[0:7,0:7].T.reshape(-1,2)*1.5
 
 # Arrays to store object points and image points from all the images.
 objpoints = [] # 3d point in real world space
 imgpoints = [] # 2d points in image plane.
 images = glob.glob('../images/cam_calibration/*.jpg')
 
-win_name="Verify"
-cv.namedWindow(win_name, cv.WND_PROP_FULLSCREEN)
-cv.setWindowProperty(win_name,cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
-
+n=0
 print("getting images")
 for fname in images:
     img = cv.imread(fname)
     print(fname)
+
+    # # resize image
+    # print('Original Dimensions : ', img.shape)
+    # scale_percent = 5  # percent of original size
+    # width = int(img.shape[1] * scale_percent / 100)
+    # height = int(img.shape[0] * scale_percent / 100)
+    # dim = (width, height)
+    # resized = cv.resize(img, dim, interpolation=cv.INTER_AREA)
+    # print('Resized Dimensions : ', resized.shape)
+
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
 
@@ -37,12 +43,14 @@ for fname in images:
     ret, corners = cv.findChessboardCorners(gray, (7,7), None)
     # If found, add object points, image points (after refining them)
     if ret == True:
+        n += 1
+        print("images used: ", n)
         objpoints.append(objp)
         corners2=cv.cornerSubPix(gray,corners, (11,11), (-1,-1), criteria)
         imgpoints.append(corners)
         # Draw and display the corners
         cv.drawChessboardCorners(img, (7,7), corners2, ret)
-        cv.imshow(win_name, img)
+        cv.imshow(fname, img)
         cv.waitKey(500)
 
     img1=img

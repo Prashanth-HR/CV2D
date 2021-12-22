@@ -1,3 +1,4 @@
+#https://docs.opencv.org/4.x/d7/d53/tutorial_py_pose.html
 import numpy as np
 import cv2 as cv
 import glob
@@ -17,10 +18,10 @@ roi=np.load(savedir+'roi.npy')
 
 criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 # prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....,(6,5,0)
-objp = np.zeros((7*7,3), np.float32)
+objp = np.zeros((11*8,3), np.float32)
 
 #add 2.5 to account for 2.5 cm per square in grid
-objp[:,:2] = np.mgrid[0:7,0:7].T.reshape(-1,2)
+objp[:,:2] = np.mgrid[0:11,0:8].T.reshape(-1,2)
 
 axis = np.float32([[3,0,0], [0,3,0], [0,0,-3]]).reshape(-1,3)
 
@@ -36,9 +37,9 @@ def draw(img, corners, imgpts):
 
 
 
-img = cv.imread('../images/test_images/image3.jpg')
+img = cv.imread('../images/test_images/IMG_20211220_194549.jpg')
 gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
-ret, corners = cv.findChessboardCorners(gray, (7,7),None)
+ret, corners = cv.findChessboardCorners(gray, (11,8),None)
 if ret == True:
     corners2 = cv.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
     # Find the rotation and translation vectors.
