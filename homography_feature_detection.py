@@ -3,8 +3,8 @@ import cv2 as cv
 import numpy as np
 import argparse
 parser = argparse.ArgumentParser(description='Code for Feature Matching with FLANN tutorial.')
-parser.add_argument('--input1', help='./images/test_images/tag.jpg', default='./images/test_images/tag.jpg')
-parser.add_argument('--input2', help='./images/test_images/tag-scene.jpg', default='./images/test_images/tag-scene.jpg')
+parser.add_argument('--input1', help='./images/metal_objects/obj1_2_cropped.jpg', default='./images/metal_objects/obj1_2_cropped.jpg')
+parser.add_argument('--input2', help='images/metal_objects/obj1_alone.jpg', default='./images/metal_objects/obj1_alone.jpg')
 args = parser.parse_args()
 img_object = cv.imread(args.input1, cv.IMREAD_GRAYSCALE)
 img_scene = cv.imread(args.input2, cv.IMREAD_GRAYSCALE)
