@@ -4,6 +4,7 @@ import cv2 as cv
 from camera_toXYZ import camera_realtimeXYZ
 
 
+
 # mouse callback function
 def draw_circle(event,x,y,flags,param):
     if event == cv.EVENT_LBUTTONDBLCLK:
@@ -15,10 +16,10 @@ win_name="Test: "
 cv.namedWindow(win_name, cv.WND_PROP_FULLSCREEN)
 #cv.setWindowProperty(win_name,cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
 
-img = cv.imread('../images/test_images/image4.jpg')
+img = cv.imread('./images/test_images/image4.jpg')
 cameraXYZ = camera_realtimeXYZ()
 
-savedir="../camera_data/"
+savedir="./camera_data/"
 newcam_mtx=np.load(savedir+'newcam_mtx.npy')
 #load center points from New Camera matrix
 cx=newcam_mtx[0,2]
