@@ -20,8 +20,7 @@ class camera_realtimeXYZ:
 
     def __init__(self):
 
-        imgdir="/home/pi/Desktop/Captures/"
-        savedir="../camera_data/"
+        savedir="./camera_data/"
 
         self.cam_mtx=np.load(savedir+'cam_mtx.npy')
         self.dist=np.load(savedir+'dist.npy')
