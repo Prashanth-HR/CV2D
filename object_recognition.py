@@ -29,28 +29,28 @@ img_example = cv2.imread('images/test_images/all_2.jpg')
 img_bg = cv2.imread('images/test_images/background.jpg')
 
 # our starting Point
-#previewImg('Background Image', img_bg)
-#previewImg('Example Image', img_example)
+previewImg('Background Image', img_bg)
+previewImg('Example Image', img_example)
 
 # Background - Gray
 img_bg_gray = cv2.cvtColor(img_bg, cv2.COLOR_BGR2GRAY)
-#previewImg("Background Gray", img_bg_gray, True)
+previewImg("Background Gray", img_bg_gray, True)
 # Image - Gray
 img_gray = cv2.cvtColor(img_example, cv2.COLOR_BGR2GRAY)
-#previewImg("Image Gray", img_gray, True)
+previewImg("Image Gray", img_gray, True)
 
 img_gray = cv2.resize(img_gray, (img_bg_gray.shape[1], img_bg_gray.shape[0]))
 # Calculate Difference
 diff_gray = cv2.absdiff(img_bg_gray, img_gray)
-#previewImg("Pre-Diff", diff_gray, True)
+previewImg("Pre-Diff", diff_gray, True)
 
 # Diff Blur
 diff_gray_blur = cv2.GaussianBlur(diff_gray, (5, 5), 0)
-#previewImg("Pre-Diff Blur", diff_gray_blur, True)
+previewImg("Pre-Diff Blur", diff_gray_blur, True)
 
 # find otsu's threshold value with OpenCV function
 ret, img_tresh = cv2.threshold(diff_gray_blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-#previewImg("Otsu Treshold", img_tresh, True)
+previewImg("Otsu Treshold", img_tresh, True)
 
 # let's now draw the contour
 # print("img_tresh:{}, Retr_ext:{}, Chain_aprox:{} ".format(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE))
@@ -61,7 +61,7 @@ a1, arr_cnt, a2 = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPRO
 img_with_allcontours = img_example.copy()
 
 cv2.drawContours(img_with_allcontours, arr_cnt, -1, (0, 255, 0), 3)
-#previewImg('Contours', img_with_allcontours)
+previewImg('Contours', img_with_allcontours)
 
 # !!! It may be possible that various contours are showing at this stage, we'll solve that below.
 '''3 conditions to avoid noise in real world:
