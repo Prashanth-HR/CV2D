@@ -5,14 +5,6 @@ import matplotlib.pyplot as plt
 from camera_toXYZ import camera_realtimeXYZ
 
 
-
-# mouse callback function
-def draw_circle(event,x,y,flags,param):
-    if event == cv.EVENT_LBUTTONDBLCLK:
-        cv.circle(img,(x,y),8,(0,255,0),1)
-        XYZ = cameraXYZ.calculate_XYZ(x,y)
-        print('Move to postion : {}'.format(XYZ))
-
 def obj_detection(img_example, img_bg):
     # our starting Point
     img_bg_gray = cv.cvtColor(img_bg, cv.COLOR_BGR2GRAY)
@@ -93,12 +85,14 @@ img = cv.imread('images/test_images/all_2.jpg')
 img_bg = cv.imread('images/test_images/background.jpg')
 
 
-# Display a Bounding Rectangle
 img_withrectangle = img.copy()
 arr_cnt, validcontours = obj_detection(img, img_bg)
+
+# Iterate for all the detected valid contours..
 for i in validcontours:
     c = arr_cnt[i]
 
+    # draw the bounding rectangles
     rect = cv.minAreaRect(c)
     box = cv.boxPoints(rect)
     box = np.int0(box)
