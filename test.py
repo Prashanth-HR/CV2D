@@ -84,9 +84,8 @@ def previewImg(text, img_preview, grayscale=False):
     plt.show()
 
 
-# win_name="Test: "
-# cv.namedWindow(win_name, cv.WND_PROP_FULLSCREEN)
-#cv.setWindowProperty(win_name,cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+
+cameraXYZ = camera_realtimeXYZ()
 
 img = cv.imread('images/test_images/all_2.jpg')
 
@@ -98,32 +97,39 @@ img_bg = cv.imread('images/test_images/background.jpg')
 img_withrectangle = img.copy()
 arr_cnt, validcontours = obj_detection(img, img_bg)
 for i in validcontours:
-    rect = cv.minAreaRect(arr_cnt[i])
+    c = arr_cnt[i]
+
+    rect = cv.minAreaRect(c)
     box = cv.boxPoints(rect)
     box = np.int0(box)
     cv.drawContours(img_withrectangle,[box],0,(0,255,0),2)
 
-previewImg('Bounding Rectangle', img_withrectangle)
+    # compute the center of the contour
+    M = cv.moments(c)
+    cX = int(M["m10"] / M["m00"])
+    cY = int(M["m01"] / M["m00"])
+	# draw the contour and center of the shape on the image
+    # cv.drawContours(img_withrectangle, [c], -1, (0, 255, 0), 2)
+    cv.circle(img_withrectangle, (cX, cY), 7, (255, 255, 255), -1)
+    cv.putText(img_withrectangle, "center", (cX - 20, cY - 20),
+    cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
+    ##############   Start 2d pixel to 3D real world conversion   #############
+    XYZ = cameraXYZ.calculate_XYZ(cX,cY)
+    print('Move to postion : \n {}'.format(XYZ))
 
-##############   Start 2d pixel to 3D real world conversion   #############
-
-img = cv.imread('./images/test_images/image4.jpg')
-cameraXYZ = camera_realtimeXYZ()
 
 savedir="./camera_data/"
 newcam_mtx=np.load(savedir+'newcam_mtx.npy')
-#load center points from New Camera matrix
-cx=newcam_mtx[0,2]
-cy=newcam_mtx[1,2]
 
-cv.circle(img,(np.int32(cx),np.int32(cy)), 10, (0,0,255), thickness=2)
-# Create a black image, a window and bind the function to window
-cv.setMouseCallback(win_name,draw_circle)
-while(1):
-    cv.imshow(win_name,img)
-    if cv.waitKey(20) & 0xFF == 27:
-        break
-cv.destroyAllWindows()
+#load center points from New Camera matrix from which the distances are calculated..
+cx=int(newcam_mtx[0,2])
+cy=int(newcam_mtx[1,2])
+cv.circle(img_withrectangle,(cx, cy), 10, (0,0,255), -1)
+cv.putText(img_withrectangle, "Ref point", (cx - 20, cy - 20), cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
+previewImg('Bounding Rectangle', img_withrectangle)
+
+
 
 
