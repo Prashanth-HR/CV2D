@@ -23,10 +23,10 @@ def previewImg(text, img_preview, grayscale=False):
     plt.show()
 
 
-img_example = cv2.imread('./images/metal_objects/obj3_alone.jpg')
+img_example = cv2.imread('images/test_images/all_2.jpg')
 
 # load a background, so we can extract it and make it easy to detect the object.
-img_bg = cv2.imread('./images/metal_objects/background.jpg')
+img_bg = cv2.imread('images/test_images/background.jpg')
 
 # our starting Point
 previewImg('Background Image', img_bg)
@@ -53,7 +53,8 @@ ret, img_tresh = cv2.threshold(diff_gray_blur, 0, 255, cv2.THRESH_BINARY + cv2.T
 previewImg("Otsu Treshold", img_tresh, True)
 
 # let's now draw the contour
-a1, arr_cnt, a2 = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+# print("img_tresh:{}, Retr_ext:{}, Chain_aprox:{} ".format(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE))
+arr_cnt, hirearchy = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 # let's copy the example image, so we don't paint over it
 img_with_allcontours = img_example.copy()
@@ -137,6 +138,11 @@ else:
 # Display a Bounding Rectangle
 img_withrectangle = img_example.copy()
 for i in validcontours:
-    x, y, w, h = cv2.boundingRect(arr_cnt[i])
-    cv2.rectangle(img_withrectangle, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    # x, y, w, h = cv2.boundingRect(arr_cnt[i])
+    # cv2.rectangle(img_withrectangle, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    rect = cv2.minAreaRect(arr_cnt[i])
+    box = cv2.boxPoints(rect)
+    box = np.int0(box)
+    cv2.drawContours(img_withrectangle,[box],0,(0,255,0),2)
     previewImg('Bounding Rectangle', img_withrectangle)
