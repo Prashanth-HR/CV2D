@@ -54,7 +54,8 @@ ret, img_tresh = cv2.threshold(diff_gray_blur, 0, 255, cv2.THRESH_BINARY + cv2.T
 
 # let's now draw the contour
 # print("img_tresh:{}, Retr_ext:{}, Chain_aprox:{} ".format(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE))
-arr_cnt, hirearchy = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+#arr_cnt, hirearchy = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+a1, arr_cnt, a2 = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 # let's copy the example image, so we don't paint over it
 img_with_allcontours = img_example.copy()
