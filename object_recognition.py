@@ -23,10 +23,10 @@ def previewImg(text, img_preview, grayscale=False):
     plt.show()
 
 
-img_example = cv2.imread('./images/metal_objects/obj3_alone.jpg')
+img_example = cv2.imread('images/test_images/all_2.jpg')
 
 # load a background, so we can extract it and make it easy to detect the object.
-img_bg = cv2.imread('./images/metal_objects/background.jpg')
+img_bg = cv2.imread('images/test_images/background.jpg')
 
 # our starting Point
 previewImg('Background Image', img_bg)
@@ -138,6 +138,11 @@ else:
 # Display a Bounding Rectangle
 img_withrectangle = img_example.copy()
 for i in validcontours:
-    x, y, w, h = cv2.boundingRect(arr_cnt[i])
-    cv2.rectangle(img_withrectangle, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    # x, y, w, h = cv2.boundingRect(arr_cnt[i])
+    # cv2.rectangle(img_withrectangle, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    rect = cv2.minAreaRect(arr_cnt[i])
+    box = cv2.boxPoints(rect)
+    box = np.int0(box)
+    cv2.drawContours(img_withrectangle,[box],0,(0,255,0),2)
     previewImg('Bounding Rectangle', img_withrectangle)
