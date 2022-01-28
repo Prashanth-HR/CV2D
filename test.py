@@ -125,7 +125,7 @@ def main():
 
     # previewImg('Bounding Rectangle', img_withrectangle)
 
-    return cord3D
+    return np.squeeze(cord3D)
 
 
 
