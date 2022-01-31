@@ -4,7 +4,6 @@ import cv2 as cv
 import glob
 import time
 
-workingdir="/home/pi/Desktop/Captures/"
 savedir="../camera_data/"
 
 # termination criteria
@@ -19,7 +18,7 @@ objp[:,:2] = np.mgrid[0:7,0:7].T.reshape(-1,2)*1.5
 # Arrays to store object points and image points from all the images.
 objpoints = [] # 3d point in real world space
 imgpoints = [] # 2d points in image plane.
-images = glob.glob('../images/cam_calibration/*.jpg')
+images = glob.glob('../images/cam_calibration/*.bmp')
 
 n=0
 print("getting images")
@@ -50,6 +49,7 @@ for fname in images:
         imgpoints.append(corners)
         # Draw and display the corners
         cv.drawChessboardCorners(img, (7,7), corners2, ret)
+        cv.namedWindow(fname, cv.WINDOW_NORMAL)
         cv.imshow(fname, img)
         cv.waitKey(500)
 
@@ -105,13 +105,10 @@ print(inverse)
 # undistort
 undst = cv.undistort(img1, cam_mtx, dist, None, newcam_mtx)
 
-# crop the image
-#x, y, w, h = roi
-#dst = dst[y:y+h, x:x+w]
-#cv.circle(dst,(308,160),5,(0,255,0),2)
-cv.imshow('img1', img1)
-cv.waitKey(5000)      
-cv.destroyAllWindows()
-cv.imshow('img1', undst)
-cv.waitKey(5000)      
+cv.namedWindow("calibration", cv.WINDOW_NORMAL)
+cv.imshow("calibration", img1)
+cv.waitKey(500)
+cv.namedWindow("undistorted", cv.WINDOW_NORMAL)
+cv.imshow("undistorted", undst)
+cv.waitKey(0)
 cv.destroyAllWindows()

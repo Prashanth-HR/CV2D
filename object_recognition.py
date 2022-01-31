@@ -23,10 +23,10 @@ def previewImg(text, img_preview, grayscale=False):
     plt.show()
 
 
-img_example = cv2.imread('images/test_images/all_2.jpg')
+img_example = cv2.imread('images/28.01.22-try/single2.bmp')
 
 # load a background, so we can extract it and make it easy to detect the object.
-img_bg = cv2.imread('images/test_images/background.jpg')
+img_bg = cv2.imread('images/28.01.22-try/background.bmp')
 
 # our starting Point
 previewImg('Background Image', img_bg)
@@ -139,19 +139,19 @@ else:
 # Display a Bounding Rectangle
 img_withrectangle = img_example.copy()
 for i in validcontours:
-    # x, y, w, h = cv2.boundingRect(arr_cnt[i])
-    # cv2.rectangle(img_withrectangle, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-    rect = cv2.minAreaRect(arr_cnt[i])
-    box = cv2.boxPoints(rect)
-    box = np.int0(box)
-
-    center = (int(box[0][0] + 0.5 * (box[2][0] - box[0][0])), int(box[0][1] + 0.5 * (box[2][1] - box[0][1])))
-    img_withrectangle = cv2.circle(img=img_withrectangle,
-                       center=center,
-                       radius=5,
-                       color=(0, 255, 0),
-                       thickness=-1)
-
-    cv2.drawContours(img_withrectangle,[box],0,(0,255,0),2)
+    x, y, w, h = cv2.boundingRect(arr_cnt[i])
+    cv2.rectangle(img_withrectangle, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    #
+    # rect = cv2.minAreaRect(arr_cnt[i])
+    # box = cv2.boxPoints(rect)
+    # box = np.int0(box)
+    #
+    # center = (int(box[0][0] + 0.5 * (box[2][0] - box[0][0])), int(box[0][1] + 0.5 * (box[2][1] - box[0][1])))
+    # img_withrectangle = cv2.circle(img=img_withrectangle,
+    #                    center=center,
+    #                    radius=5,
+    #                    color=(0, 255, 0),
+    #                    thickness=-1)
+    #
+    # cv2.drawContours(img_withrectangle,[box],0,(0,255,0),2)
     previewImg('Bounding Rectangle', img_withrectangle)
