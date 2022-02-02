@@ -5,6 +5,27 @@ Building a Modular Robot
 - Develop a web-based interface that integrates into the robot's existing UI
 - Include Mapping from camera to robot coordinates
 
+# Steps to startup
+## 1. Dependencies
+- Recommended to work with Anaconda - manages the env's better
+    - ref : https://docs.anaconda.com/anaconda/install/index.html
+
+- OpenCV - $ sudo apt-get install python3-opencv
+    - ref : https://docs.opencv.org/4.x/d2/de6/tutorial_py_setup_in_ubuntu.html
+
+- Flase - $ pip install flask
+
+## 2. Assuming that u have calibrated the camera by running the calibration scriprts in /cam_calibration
+
+The code is in **test.py** file under ***main()*** method
+
+
+## 3. To Run the algorithm as a service
+
+- run $ python server.py
+
+
+
+
 ##### Object Detection Ref:
-- The sample objectDetection.py code could be useful..
-- https://www.youtube.com/watch?v=f-Ibri14KMY
+- https://github.com/pacogarcia3/hta0-horizontal-robot-arm/blob/master/README.md

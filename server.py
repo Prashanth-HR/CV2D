@@ -7,12 +7,11 @@ import test
 
 app = Flask(__name__)
 
+# method to access the CV2D algorithm as an api (using http requests)
 @app.route('/')
 def function():
-    cord3D = np.array(test.main())
-    print(cord3D.shape)
-    # return jsonify([json(cord) for cord in cord3D])
-    return {"cords" : cord3D.reshape(3,3).tolist()}
+    cord3D = test.main()
+    return {"Coordinates" : cord3D.tolist()}
 
 
 app.run(host="0.0.0.0")
