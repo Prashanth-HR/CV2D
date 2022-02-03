@@ -27,7 +27,7 @@ def previewImg(text, img_preview, grayscale=False):
 
 
 # image with object
-img_example = cv2.imread('images/28.01.22-try/single1.bmp')
+img_example = cv2.imread('images/28.01.22-try/multi3.bmp')
 
 # load a background, so we can extract it and make it easy to detect the object.
 img_bg = cv2.imread('images/28.01.22-try/background.bmp')
@@ -43,6 +43,9 @@ previewImg("Background Gray", img_bg_gray, True)
 img_gray = cv2.cvtColor(img_example, cv2.COLOR_BGR2GRAY)
 previewImg("Image Gray", img_gray, True)
 
+"""
+# Image blur after difference
+
 img_gray = cv2.resize(img_gray, (img_bg_gray.shape[1], img_bg_gray.shape[0]))
 # Calculate Difference
 diff_gray = cv2.absdiff(img_bg_gray, img_gray)
@@ -52,21 +55,35 @@ previewImg("Pre-Diff", diff_gray, True)
 diff_gray_blur = cv2.GaussianBlur(diff_gray, (5, 5), 0)
 previewImg("Pre-Diff Blur", diff_gray_blur, True)
 
+
+"""
+# Image blur before difference
+
+kernel_size = 51
+bg_blur = cv2.GaussianBlur(img_bg_gray, (kernel_size, kernel_size), 0)
+img_blur = cv2.GaussianBlur(img_gray, (kernel_size, kernel_size), 0)
+# Calculate Difference
+diff_gray = cv2.absdiff(bg_blur, img_blur)
+previewImg("Pre-Diff", diff_gray, True)
+
+diff_gray_blur = diff_gray
+previewImg("diff_blur", diff_gray_blur, True)
+
+
 # old computation:
 # find otsu's threshold value with OpenCV function
-# ret, img_tresh = cv2.threshold(diff_gray_blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+ret, img_tresh = cv2.threshold(diff_gray_blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
 # new computation:
 # using adaptive threshold
-img_tresh = cv2.adaptiveThreshold(diff_gray_blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
-
-img_tresh = -img_tresh + 255
-previewImg("Otsu Treshold", img_tresh, True)
+# img_tresh = cv2.adaptiveThreshold(diff_gray_blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
+# img_tresh = -img_tresh + 255
+# previewImg("Otsu Treshold", img_tresh, True)
 
 # let's now draw the contour
 # print("img_tresh:{}, Retr_ext:{}, Chain_aprox:{} ".format(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE))
 # arr_cnt, hirearchy = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-a1, arr_cnt, a2 = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+arr_cnt, a1 = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 # let's copy the example image, so we don't paint over it
 img_with_allcontours = img_example.copy()
