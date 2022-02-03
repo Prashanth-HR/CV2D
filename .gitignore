@@ -1,5 +1,4 @@
 # Ignore test images from the repository
-/images/
 /camera_data/
 
 /__pycache__/
