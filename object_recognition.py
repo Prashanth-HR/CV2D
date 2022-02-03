@@ -52,8 +52,15 @@ previewImg("Pre-Diff", diff_gray, True)
 diff_gray_blur = cv2.GaussianBlur(diff_gray, (5, 5), 0)
 previewImg("Pre-Diff Blur", diff_gray_blur, True)
 
+# old computation:
 # find otsu's threshold value with OpenCV function
-ret, img_tresh = cv2.threshold(diff_gray_blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+# ret, img_tresh = cv2.threshold(diff_gray_blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+# new computation:
+# using adaptive threshold
+img_tresh = cv2.adaptiveThreshold(diff_gray_blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
+
+img_tresh = -img_tresh + 255
 previewImg("Otsu Treshold", img_tresh, True)
 
 # let's now draw the contour
