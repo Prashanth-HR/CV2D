@@ -3,6 +3,7 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 
 from camera_toXYZ import camera_realtimeXYZ
+from object_recognition import objectRecognition
 
 
 def obj_detection(img_example, img_bg):
@@ -64,6 +65,7 @@ def obj_detection(img_example, img_bg):
 
     return (arr_cnt, validcontours)
 
+
 def previewImg(text, img_preview, grayscale=False):
     # plt.imshow(img_preview)
     if grayscale == False:
@@ -75,6 +77,7 @@ def previewImg(text, img_preview, grayscale=False):
     plt.title(text)
     plt.show()
 
+
 def main():
     cameraXYZ = camera_realtimeXYZ()
 
@@ -82,7 +85,6 @@ def main():
 
     # load a background, so we can extract it and make it easy to detect the object.
     img_bg = cv.imread('images/test_images/background.jpg')
-
 
     img_withrectangle = img.copy()
     arr_cnt, validcontours = obj_detection(img, img_bg)
@@ -96,7 +98,7 @@ def main():
         rect = cv.minAreaRect(c)
         box = cv.boxPoints(rect)
         box = np.int0(box)
-        cv.drawContours(img_withrectangle,[box],0,(0,255,0),2)
+        cv.drawContours(img_withrectangle, [box], 0, (0, 255, 0), 2)
 
         # compute the center of the contour
         M = cv.moments(c)
@@ -106,28 +108,22 @@ def main():
         # cv.drawContours(img_withrectangle, [c], -1, (0, 255, 0), 2)
         cv.circle(img_withrectangle, (cX, cY), 7, (255, 255, 255), -1)
         cv.putText(img_withrectangle, "center", (cX - 20, cY - 20),
-        cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+                   cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
         ##############   Start 2d pixel to 3D real world conversion   #############
-        XYZ = cameraXYZ.calculate_XYZ(cX,cY)
+        XYZ = cameraXYZ.calculate_XYZ(cX, cY)
         cord3D.append(XYZ)
         # print('Move to postion : \n {}'.format(XYZ))
 
+    savedir = "./camera_data/"
+    newcam_mtx = np.load(savedir + 'newcam_mtx.npy')
 
-    savedir="./camera_data/"
-    newcam_mtx=np.load(savedir+'newcam_mtx.npy')
-
-    #load center points from New Camera matrix from which the distances are calculated..
-    cx=int(newcam_mtx[0,2])
-    cy=int(newcam_mtx[1,2])
-    cv.circle(img_withrectangle,(cx, cy), 10, (0,0,255), -1)
+    # load center points from New Camera matrix from which the distances are calculated..
+    cx = int(newcam_mtx[0, 2])
+    cy = int(newcam_mtx[1, 2])
+    cv.circle(img_withrectangle, (cx, cy), 10, (0, 0, 255), -1)
     cv.putText(img_withrectangle, "Ref point", (cx - 20, cy - 20), cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
     # previewImg('Bounding Rectangle', img_withrectangle)
 
     return np.squeeze(cord3D)
-
-
-
-
-

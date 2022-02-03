@@ -1,0 +1,3 @@
+[submodule "pypylon"]
+	path = pypylon
+	url = https://github.com/basler/pypylon.git
