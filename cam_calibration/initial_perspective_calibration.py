@@ -38,57 +38,51 @@ print("cx: "+str(cx)+",cy "+str(cy)+",fx "+str(fx))
 
 #world center + 13 world points
 
-total_points_used=14
+total_points_used=10
 
 X_center=0 #15.2
 Y_center=0 #1.4
-Z_center=59.8
-worldPoints=np.array([[X_center,Y_center,Z_center], 
-                        [ 7.7,  1.9, 59.8],
-                        [ 7.7,  9.3, 59.8],
-                        [ 7.7, 16.7, 59.8],
-                        [ 5.1,  4.3, 59.8],
-                        [ 5.1, 14.2, 59.8],
-                        [-0. ,  1.9, 59.8],
-                        [-0. ,  9.3, 59.8],
-                        [-0. , 16.7, 59.8],
-                        [-5.1,  4.3, 59.8],
-                        [-5.1, 14.2, 59.8],
-                        [-7.6,  1.9, 59.8],
-                        [-7.6,  9.3, 59.8],
-                        [-7.6, 16.7, 59.8]],dtype=np.float32)
+Z_center=70
+worldPoints=np.array([
+                        [ -586, -470, 70], # of the paper corner
+                        [ -605, -405, 70],
+                        [ -668, -347, 70],
+                        [ -730, -295, 70],
+                        [ -563, -354, 70],
+                        [ -625, -300, 70],
+                        [ -687, -245, 70],
+                        [ -517, -307, 70],
+                        [ -581, -252, 70],
+                        [ -643, -198, 70]],dtype=np.float32)
 
 #MANUALLY INPUT THE DETECTED IMAGE COORDINATES HERE
 
 #[u,v] center + 10 Image points
-imagePoints=np.array([[cx,cy],
-                       [423,256],
-                       [425,341],
-                       [428,429],
-                       [395,284],
-                       [397,400],
-                       [334,256],
-                       [336,342],
-                       [337,430],
-                       [275,285],
-                       [276,402],
-                       [245,257],
-                       [245,343],
-                       [246,432]], dtype=np.float32)
+imagePoints=np.array([
+                        [836,513],
+                        [1239,751],
+                        [1782,737],
+                        [2313,729],
+                        [1251,1171],
+                        [1792,1154],
+                        [2323,1144],
+                        [1261,1586],
+                        [1800,1572],
+                        [2331,1557]], dtype=np.float32)
 
 
 #FOR REAL WORLD POINTS, CALCULATE Z from d*
 
-for i in range(1,total_points_used):
-    #start from 1, given for center Z=d*
-    #to center of camera
-    wX=worldPoints[i,0]-X_center
-    wY=worldPoints[i,1]-Y_center
-    wd=worldPoints[i,2]
+# for i in range(1,total_points_used):
+#     #start from 1, given for center Z=d*
+#     #to center of camera
+#     wX=worldPoints[i,0]-X_center
+#     wY=worldPoints[i,1]-Y_center
+#     wd=worldPoints[i,2]
 
-    d1=np.sqrt(np.square(wX)+np.square(wY))
-    wZ=np.sqrt(np.square(wd)-np.square(d1))
-    worldPoints[i,2]=wZ
+#     d1=np.sqrt(np.square(wX)+np.square(wY))
+#     wZ=np.sqrt(np.square(wd)-np.square(d1))
+#     worldPoints[i,2]=wZ
 
 print(worldPoints)
 

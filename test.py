@@ -3,7 +3,7 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 
 from camera_toXYZ import camera_realtimeXYZ
-from object_recognition import objectRecognition
+# from object_recognition import objectRecognition
 
 
 def obj_detection(img_example, img_bg):
@@ -81,10 +81,10 @@ def previewImg(text, img_preview, grayscale=False):
 def main():
     cameraXYZ = camera_realtimeXYZ()
 
-    img = cv.imread('images/test_images/all_2.jpg')
+    img = cv.imread('images/test_images/multi-obj1.bmp')
 
     # load a background, so we can extract it and make it easy to detect the object.
-    img_bg = cv.imread('images/test_images/background.jpg')
+    img_bg = cv.imread('images/test_images/background.bmp')
 
     img_withrectangle = img.copy()
     arr_cnt, validcontours = obj_detection(img, img_bg)
