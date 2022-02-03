@@ -15,15 +15,17 @@ def previewImg(text, img_preview, grayscale=False):
     # plt.imshow(img_preview)
     if grayscale == False:
         # convert a color image from BGR to RGB before previewing
-        plt.imshow(cv2.cvtColor(img_preview, cv2.COLOR_BGR2RGB))
+        img_preview = cv2.cvtColor(img_preview, cv2.COLOR_BGR2RGB)
     else:
         # option for Grayscale images
-        plt.imshow(cv2.cvtColor(img_preview, cv2.COLOR_GRAY2RGB))
-    plt.title(text)
-    plt.show()
+        img_preview = cv2.cvtColor(img_preview, cv2.COLOR_GRAY2RGB)
+    cv2.namedWindow(text, cv2.WINDOW_NORMAL)
+    cv2.imshow(text, img_preview)
+    print('Original Dimensions : ', img_preview .shape)
+    cv2.waitKey(0)
 
-
-img_example = cv2.imread('images/28.01.22-try/single2.bmp')
+# image with object
+img_example = cv2.imread('images/28.01.22-try/single1.bmp')
 
 # load a background, so we can extract it and make it easy to detect the object.
 img_bg = cv2.imread('images/28.01.22-try/background.bmp')
@@ -139,19 +141,22 @@ else:
 # Display a Bounding Rectangle
 img_withrectangle = img_example.copy()
 for i in validcontours:
-    x, y, w, h = cv2.boundingRect(arr_cnt[i])
-    cv2.rectangle(img_withrectangle, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    # x, y, w, h = cv2.boundingRect(arr_cnt[i])
+    # cv2.rectangle(img_withrectangle, (x, y), (x + w, y + h), (0, 255, 0), 2)
     #
-    # rect = cv2.minAreaRect(arr_cnt[i])
-    # box = cv2.boxPoints(rect)
-    # box = np.int0(box)
-    #
-    # center = (int(box[0][0] + 0.5 * (box[2][0] - box[0][0])), int(box[0][1] + 0.5 * (box[2][1] - box[0][1])))
-    # img_withrectangle = cv2.circle(img=img_withrectangle,
-    #                    center=center,
-    #                    radius=5,
-    #                    color=(0, 255, 0),
-    #                    thickness=-1)
-    #
-    # cv2.drawContours(img_withrectangle,[box],0,(0,255,0),2)
+    rect = cv2.minAreaRect(arr_cnt[i])
+    box = cv2.boxPoints(rect)
+    box = np.int0(box)
+
+    center = (int(box[0][0] + 0.5 * (box[2][0] - box[0][0])), int(box[0][1] + 0.5 * (box[2][1] - box[0][1])))
+    img_withrectangle = cv2.circle(img=img_withrectangle,
+                       center=center,
+                       radius=5,
+                       color=(0, 255, 0),
+                       thickness=-1)
+
+    cv2.drawContours(img_withrectangle,[box],0,(0,255,0),2)
     previewImg('Bounding Rectangle', img_withrectangle)
+
+cv2.destroyAllWindows()
+exit()
