@@ -22,6 +22,7 @@ def previewImg(text, img_preview, grayscale=False):
     cv2.namedWindow(text, cv2.WINDOW_NORMAL)
     cv2.imshow(text, img_preview)
     print('Original Dimensions : ', img_preview .shape)
+    #need to press a key to get the next image, by the last one the program will exit.
     cv2.waitKey(0)
 
 # image with object
@@ -141,9 +142,12 @@ else:
 # Display a Bounding Rectangle
 img_withrectangle = img_example.copy()
 for i in validcontours:
+
+    #option orientation of the image:
     # x, y, w, h = cv2.boundingRect(arr_cnt[i])
     # cv2.rectangle(img_withrectangle, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    #
+
+    #option orientation of the object (minimizes the error):
     rect = cv2.minAreaRect(arr_cnt[i])
     box = cv2.boxPoints(rect)
     box = np.int0(box)
