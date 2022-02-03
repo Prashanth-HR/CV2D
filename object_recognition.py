@@ -21,9 +21,10 @@ def previewImg(text, img_preview, grayscale=False):
         img_preview = cv2.cvtColor(img_preview, cv2.COLOR_GRAY2RGB)
     cv2.namedWindow(text, cv2.WINDOW_NORMAL)
     cv2.imshow(text, img_preview)
-    print('Original Dimensions : ', img_preview .shape)
-    #need to press a key to get the next image, by the last one the program will exit.
+    print('Original Dimensions : ', img_preview.shape)
+    # need to press a key to get the next image, by the last one the program will exit.
     cv2.waitKey(0)
+
 
 # image with object
 img_example = cv2.imread('images/28.01.22-try/single1.bmp')
@@ -57,7 +58,7 @@ previewImg("Otsu Treshold", img_tresh, True)
 
 # let's now draw the contour
 # print("img_tresh:{}, Retr_ext:{}, Chain_aprox:{} ".format(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE))
-#arr_cnt, hirearchy = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+# arr_cnt, hirearchy = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 a1, arr_cnt, a2 = cv2.findContours(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 # let's copy the example image, so we don't paint over it
@@ -142,24 +143,23 @@ else:
 # Display a Bounding Rectangle
 img_withrectangle = img_example.copy()
 for i in validcontours:
-
-    #option orientation of the image:
+    # option orientation of the image:
     # x, y, w, h = cv2.boundingRect(arr_cnt[i])
     # cv2.rectangle(img_withrectangle, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    #option orientation of the object (minimizes the error):
+    # option orientation of the object (minimizes the error):
     rect = cv2.minAreaRect(arr_cnt[i])
     box = cv2.boxPoints(rect)
     box = np.int0(box)
 
     center = (int(box[0][0] + 0.5 * (box[2][0] - box[0][0])), int(box[0][1] + 0.5 * (box[2][1] - box[0][1])))
     img_withrectangle = cv2.circle(img=img_withrectangle,
-                       center=center,
-                       radius=5,
-                       color=(0, 255, 0),
-                       thickness=-1)
+                                   center=center,
+                                   radius=5,
+                                   color=(0, 255, 0),
+                                   thickness=-1)
 
-    cv2.drawContours(img_withrectangle,[box],0,(0,255,0),2)
+    cv2.drawContours(img_withrectangle, [box], 0, (0, 255, 0), 2)
     previewImg('Bounding Rectangle', img_withrectangle)
 
 cv2.destroyAllWindows()
