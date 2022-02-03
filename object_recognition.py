@@ -6,7 +6,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-C# image with object
+# image with object
 img_example = cv2.imread('images/28.01.22-try/multi1.bmp')
 
 # load a background, so we can extract it and make it easy to detect the object.
