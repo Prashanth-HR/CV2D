@@ -14,7 +14,7 @@ class Robot_Receiver:
         self.MAX_MSG_LENGTH = 508
         self.MIN_MSG_LENGTH = 4
 
-    def main():
+    def main(self):
         rx_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         rx_socket.bind((self.IP_ADDR, self.PORT))
         while True:
@@ -25,7 +25,7 @@ class Robot_Receiver:
                     print("Error decoding message.")
 
 
-    def process_message(message):
+    def process_message(self, message):
         global _last_rx_mesage_sequence_number
         success = False
         if(len(message) >= self.MIN_MSG_LENGTH) and (len(message) <= self.MAX_MSG_LENGTH):
@@ -60,7 +60,7 @@ class Robot_Receiver:
         return success
 
 
-    def process_get_joint_abs_payload(payload):
+    def process_get_joint_abs_payload(self, payload):
         success = False
         joint_values = []
         number_of_joints = int.from_bytes(payload[0:1], byteorder='big',
@@ -78,7 +78,7 @@ class Robot_Receiver:
         return success
 
 
-    def process_get_pose_abs_payload(payload):
+    def process_get_pose_abs_payload(self, payload):
         success = False
         pose_values = []
         number_of_dimensions = int.from_bytes(payload[0:1], byteorder='big',
@@ -102,7 +102,7 @@ class Robot_Receiver:
         return success
 
 
-    def process_get_motion_done_payload(payload):
+    def process_get_motion_done_payload(self, payload):
         success = False
         if len(payload) == 1:  # Expected payload length: 1 Byte.
             point_sequence_number = int.from_bytes(payload[0:1], byteorder='big',
@@ -112,7 +112,7 @@ class Robot_Receiver:
         return success
 
 
-    def process_get_input_payload(payload):
+    def process_get_input_payload(self, payload):
         success = False
         input_values = []
         number_of_values = int.from_bytes(payload[0:1], byteorder='big',
@@ -130,7 +130,7 @@ class Robot_Receiver:
         return success
 
 
-    def process_get_output_payload(payload):
+    def process_get_output_payload(self, payload):
         success = False
         output_values = []
         number_of_values = int.from_bytes(payload[0:1], byteorder='big',
@@ -147,7 +147,7 @@ class Robot_Receiver:
         return success
 
 
-    def process_get_status_payload(payload):
+    def process_get_status_payload(self, payload):
         success = False
         if len(payload) >= 10:  # Minimum payload length: 10 Byte.
             status = int.from_bytes(payload[0:1], byteorder='big', signed=False)

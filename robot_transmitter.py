@@ -16,7 +16,7 @@ class Robot_Transmitter:
         self.MIN_MSG_LENGTH = 4
 
 
-    def main():
+    def main(self):
         tx_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         
         # Command a two joint robot to move to joint angles -.2 .2 .
@@ -58,7 +58,7 @@ class Robot_Transmitter:
 
 
 
-    def generate_set_joint_abs_message(point_sequence_number, approach_velocity,
+    def generate_set_joint_abs_message(self, point_sequence_number, approach_velocity,
                                     approach_acceleration, joint_angles):
         message = bytes()
         message_type = 0x01  # SET_JOINT_ABS.
@@ -80,7 +80,7 @@ class Robot_Transmitter:
         return message
 
 
-    def generate_set_joint_offs_message(joint_offsets):
+    def generate_set_joint_offs_message(self, joint_offsets):
         message = bytes()
         message_type = 0x03  # SET_JOINT_OFFS.
         message += message_type.to_bytes(1, byteorder='big', signed=False)
@@ -97,7 +97,7 @@ class Robot_Transmitter:
         return message
 
 
-    def generate_set_pose_abs_message(point_sequence_number, approach_velocity,
+    def generate_set_pose_abs_message(self, point_sequence_number, approach_velocity,
                                     approach_acceleration, pose):
         message = bytes()
         message_type = 0x05  # SET_POSE_ABS.
@@ -125,7 +125,7 @@ class Robot_Transmitter:
         return message
 
 
-    def generate_set_output_message(index, value):
+    def generate_set_output_message(self, index, value):
         message = bytes()
         message_type = 0x20  # SET_OUTPUT.
         message += message_type.to_bytes(1, byteorder='big', signed=False)
@@ -138,7 +138,7 @@ class Robot_Transmitter:
         return message
 
 
-    def generate_set_g_compensation_message():
+    def generate_set_g_compensation_message(self):
         message = bytes()
         message_type = 0x41  # SET_G_COMPENSATION.
         message += message_type.to_bytes(1, byteorder='big', signed=False)
@@ -151,7 +151,7 @@ class Robot_Transmitter:
         return message
 
 
-    def generate_set_stop_message():
+    def generate_set_stop_message(self):
         message = bytes()
         message_type = 0xEE  # SET_STOP.
         message += message_type.to_bytes(1, byteorder='big', signed=False)
@@ -174,7 +174,7 @@ class Robot_Transmitter:
         return int(angular_value * 1e6)
 
 
-    def get_message_sequence_number():
+    def get_message_sequence_number(self):
         global _tx_sequence_number
         if _tx_sequence_number >= 0xff:
             _tx_sequence_number = 0x00
