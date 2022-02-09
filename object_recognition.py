@@ -3,15 +3,15 @@
 
 import cv2
 import numpy as np
-import os
-import matplotlib.pyplot as plt
 
 # image with object
-img_example = cv2.imread('images/28.01.22-try/multi1.bmp')
+img_example = cv2.imread('images/test_images/multi-obj1.bmp')
 
 # load a background, so we can extract it and make it easy to detect the object.
-img_bg = cv2.imread('images/28.01.22-try/background.bmp')
+img_bg = cv2.imread('images/test_images/background.bmp')
 
+blur_after_difference = True        # True blurs picture after taking the difference, False blurs both images before
+use_adaptive_threshold = False      # True uses adaptive threshold, False uses original Otsu Threshold
 
 class objectRecognition:
     # OpenCV uses BGR while matplotlib uses RGB, so we need to make sure that put these conversion in so the picture
@@ -43,40 +43,33 @@ class objectRecognition:
     img_gray = cv2.cvtColor(img_example, cv2.COLOR_BGR2GRAY)
     previewImg("Image Gray", img_gray, True)
 
-    """
-    # Image blur after difference
+    if blur_after_difference:
+        kernel_size = 123  # Has to be an odd divider of 255, e.g. 123, 51, 25
+        img_gray = cv2.resize(img_gray, (img_bg_gray.shape[1], img_bg_gray.shape[0]))
+        # Calculate Difference
+        diff_gray = cv2.absdiff(img_bg_gray, img_gray)
+        previewImg("Pre-Diff", diff_gray, True)
+        # Diff Blur
+        diff_gray_blur = cv2.GaussianBlur(diff_gray, (kernel_size, kernel_size), 0)
+        previewImg("Pre-Diff Blur", diff_gray_blur, True)
     
-    img_gray = cv2.resize(img_gray, (img_bg_gray.shape[1], img_bg_gray.shape[0]))
-    # Calculate Difference
-    diff_gray = cv2.absdiff(img_bg_gray, img_gray)
-    previewImg("Pre-Diff", diff_gray, True)
-    
-    # Diff Blur
-    diff_gray_blur = cv2.GaussianBlur(diff_gray, (5, 5), 0)
-    previewImg("Pre-Diff Blur", diff_gray_blur, True)
-    
-    
-    """
-    # Image blur before difference
+    else:
+        kernel_size = 51  # Has to be an odd divider of 255, e.g. 123, 51, 25
+        bg_blur = cv2.GaussianBlur(img_bg_gray, (kernel_size, kernel_size), 0)
+        img_blur = cv2.GaussianBlur(img_gray, (kernel_size, kernel_size), 0)
+        previewImg("Pre-Diff", img_blur, True)
+        # Calculate Difference
+        diff_gray_blur = cv2.absdiff(bg_blur, img_blur)
+        previewImg("diff_blur", diff_gray_blur, True)
 
-    kernel_size = 51  # Marc: never change a running system - 51 is a goog dividend for the pixel size
-    bg_blur = cv2.GaussianBlur(img_bg_gray, (kernel_size, kernel_size), 0)
-    img_blur = cv2.GaussianBlur(img_gray, (kernel_size, kernel_size), 0)
-    previewImg("Pre-Diff", img_blur, True)
+    if use_adaptive_threshold:
+        img_tresh = cv2.adaptiveThreshold(diff_gray_blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+        img_tresh = -img_tresh + 255
+        previewImg("Otsu Treshold", img_tresh, True)
 
-    # Calculate Difference
-    diff_gray_blur = cv2.absdiff(bg_blur, img_blur)
-    previewImg("diff_blur", diff_gray_blur, True)
-
-    # old computation:
-    # find otsu's threshold value with OpenCV function
-    ret, img_tresh = cv2.threshold(diff_gray_blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-    # new computation:
-    # using adaptive threshold
-    # img_tresh = cv2.adaptiveThreshold(diff_gray_blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
-    # img_tresh = -img_tresh + 255
-    # previewImg("Otsu Treshold", img_tresh, True)
+    else:
+        # find otsu's threshold value with OpenCV function
+        ret, img_tresh = cv2.threshold(diff_gray_blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
     # let's now draw the contour
     # print("img_tresh:{}, Retr_ext:{}, Chain_aprox:{} ".format(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE))
