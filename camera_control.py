@@ -32,47 +32,48 @@ print("Using device ", camera.GetDeviceInfo().GetModelName())
 # camera.AutoFunctionProfile.SetValue("MinimizeGain")
 # print("camera.AutoFunctionProfile.GetValue(): ", camera.AutoFunctionProfile.GetValue())
 
-## Enable Gain and Exposure Auto auto functions and set the operating mode to Continuous
-camera.GainAuto.SetValue("Continuous")
-print("camera.GainAuto.GetValue(): ", camera.GainAuto.GetValue())
+# ## Enable Gain and Exposure Auto auto functions and set the operating mode to Continuous
+# camera.GainAuto.SetValue("Continuous")
+# print("camera.GainAuto.GetValue(): ", camera.GainAuto.GetValue())
+#
+# camera.ExposureAuto.SetValue("Continuous")
+# print("camera.ExposureAuto.GetValue(): ", camera.ExposureAuto.GetValue())
+# camera.ExposureTime.SetValue(30216)
+# camera.AcquisitionFrameRate.SetValue(100)
+# camera.Gamma.SetValue(1)
+# camera.TriggerSelector = "FrameStart"
+# camera.ChunkSelector.SetValue("AutoBrightnessStatus")
+# #################################################################
+# camera.PixelFormat = "Mono8"
+# # like above, alternative is the long form
+# camera.PixelFormat.SetValue("Mono8")
+#
+# # Packet Size
+# camera.GevSCPSPacketSize.SetValue(1500)
+# # Inter-Packet Delay
+# camera.GevSCPD.SetValue(2000)
 
-camera.ExposureAuto.SetValue("Continuous")
-print("camera.ExposureAuto.GetValue(): ", camera.ExposureAuto.GetValue())
-camera.ExposureTime.SetValue(30216)
-camera.AcquisitionFrameRate.SetValue(100)
-camera.Gamma.SetValue(1)
-camera.TriggerSelector = "FrameStart"
-camera.ChunkSelector.SetValue("AutoBrightnessStatus")
-#################################################################
-camera.PixelFormat = "Mono10"
-# like above, alternative is the long form
-camera.PixelFormat.SetValue("Mono10")
+# # grab one image with a timeout of 1s
+# # returns a GrabResult, which is the image plus metadata
+# res = camera.GrabOne(10000)
+# # the raw memory of the image
+# print(res.GetBuffer()[:100])
+# # full method call
+# img = res.GetArray()
+# # abbrev
+# img = res.Array
+# # Image.fromarray(res.Array).save("./images.png")
+# print('Dimensions : ', img.shape)
+# cv2.namedWindow("img", cv2.WINDOW_NORMAL)
+# cv2.imshow("img", img)
+# # need to press a key to get the next image, by the last one the program will exit.
+# cv2.waitKey(0)
 
-# Packet Size
-camera.GevSCPSPacketSize.SetValue(1500)
-# Inter-Packet Delay
-camera.GevSCPD.SetValue(2000)
-
-# grab one image with a timeout of 1s
-# returns a GrabResult, which is the image plus metadata
-res = camera.GrabOne(3000)
-# the raw memory of the image
-res.GetBuffer()[:100]
-# full method call
-img = res.GetArray()
-# abbrev
-img = res.Array
-# Image.fromarray(res.Array).save("./images.png")
-print('Dimensions : ', img.shape)
-cv2.namedWindow("img", cv2.WINDOW_NORMAL)
-cv2.imshow("img", img)
-# need to press a key to get the next image, by the last one the program will exit.
-cv2.waitKey(0)
-
-camera.StartGrabbingMax(10)
+camera.StartGrabbingMax(100)
 try:
   while camera.IsGrabbing():
     result = camera.RetrieveResult(5000, py.TimeoutHandling_ThrowException)
+    print(result.GrabSucceeded())
     if result.GrabSucceeded():
       try:
         # The beef
