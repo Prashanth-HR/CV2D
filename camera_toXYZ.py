@@ -34,7 +34,7 @@ class camera_realtimeXYZ:
 
         s_arr=np.load(savedir+'s_arr.npy')
         self.scalingfactor=s_arr[0]
-        print(self.scalingfactor)
+        # print("Scaling Factor :{}".format(self.scalingfactor))
         self.inverse_newcam_mtx = np.linalg.inv(self.newcam_mtx)
         self.inverse_R_mtx = np.linalg.inv(self.R_mtx)
     

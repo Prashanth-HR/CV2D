@@ -185,12 +185,12 @@ class Robot_Receiver:
         return success
 
 
-    def decode_angular_value(raw_angular_value):
+    def decode_angular_value(self, raw_angular_value):
         # Angular values are encoded as nano radians divided by pi.
         return raw_angular_value * 1e-9 * math.pi
 
 
-    def decode_linear_value(raw_linear_value):
+    def decode_linear_value(self, raw_linear_value):
         # Linear values are encoded as micro meters.
         return raw_linear_value * 1e-6
 
