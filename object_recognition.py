@@ -64,7 +64,7 @@ class objectRecognition:
 
     if use_adaptive_threshold:
         img_tresh = cv2.adaptiveThreshold(diff_gray_blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
-        img_tresh = -img_tresh + 255 # invert black/white to find contours
+        img_tresh = -img_tresh + 255 # invert black/white to find contours with cv2.findContours()
         previewImg("Adaptive Treshold", img_tresh, True)
 
     else:
