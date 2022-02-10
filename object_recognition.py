@@ -48,10 +48,10 @@ class objectRecognition:
         img_gray = cv2.resize(img_gray, (img_bg_gray.shape[1], img_bg_gray.shape[0]))
         # Calculate Difference
         diff_gray = cv2.absdiff(img_bg_gray, img_gray)
-        previewImg("Pre-Diff", diff_gray, True)
+        previewImg("Pre-Blur", diff_gray, True)
         # Diff Blur
         diff_gray_blur = cv2.GaussianBlur(diff_gray, (kernel_size, kernel_size), 0)
-        previewImg("Pre-Diff Blur", diff_gray_blur, True)
+        previewImg("Diff Blur", diff_gray_blur, True)
     
     else:
         kernel_size = 51  # Has to be an odd divider of 255, e.g. 123, 51, 25
@@ -64,12 +64,13 @@ class objectRecognition:
 
     if use_adaptive_threshold:
         img_tresh = cv2.adaptiveThreshold(diff_gray_blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
-        img_tresh = -img_tresh + 255
-        previewImg("Otsu Treshold", img_tresh, True)
+        img_tresh = -img_tresh + 255 # invert black/white to find contours
+        previewImg("Adaptive Treshold", img_tresh, True)
 
     else:
         # find otsu's threshold value with OpenCV function
         ret, img_tresh = cv2.threshold(diff_gray_blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        previewImg("Otsu Treshold", img_tresh, True)
 
     # let's now draw the contour
     # print("img_tresh:{}, Retr_ext:{}, Chain_aprox:{} ".format(img_tresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE))
