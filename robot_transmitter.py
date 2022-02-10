@@ -164,12 +164,12 @@ class Robot_Transmitter:
         return message
 
 
-    def encode_angular_value(angular_value):
+    def encode_angular_value(self, angular_value):
         # Angular values are encoded as nano radians divided by pi.
         return int(angular_value / math.pi * 1e9)
 
 
-    def encode_linear_value(angular_value):
+    def encode_linear_value(self, angular_value):
         # Linear values are encoded as micro meters.
         return int(angular_value * 1e6)
 

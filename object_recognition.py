@@ -248,7 +248,29 @@ class ObjectRecognition:
                     if edge_noise == False:
                         validcontours.append(contour_index)
 
-        return (arr_cnt, validcontours)
+        # Iterate for all the detected valid contours and find centers
+        obj_centers = []
+        for i in validcontours:
+            c = arr_cnt[i]
+
+            # draw the bounding rectangles
+            rect = cv.minAreaRect(c)
+            box = cv.boxPoints(rect)
+            box = np.int0(box)
+            # cv.drawContours(img_withrectangle, [box], 0, (0, 255, 0), 2)
+
+            # compute the center of the contour
+            M = cv.moments(c)
+            cX = int(M["m10"] / M["m00"])
+            cY = int(M["m01"] / M["m00"])
+            # draw the contour and center of the shape on the image
+            # cv.drawContours(img_withrectangle, [c], -1, (0, 255, 0), 2)
+            #  cv.circle(img_withrectangle, (cX, cY), 7, (255, 255, 255), -1)
+            #  cv.putText(img_withrectangle, "center", (cX - 20, cY - 20),
+            #         cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
+            obj_centers.append([cX, cY])
+        return obj_centers
 
 
 
