@@ -57,7 +57,8 @@ def main():
     
 
         # => Move to a diff position to release obj 
-
+        message = transmitter.generate_set_pose_abs_message(1, 50, 120, calibrated_position)
+        tx_socket.sendto(message, (transmitter.IP_ADDR, transmitter.PORT))
 
         # => go to pre-calibrated position 
 
