@@ -268,3 +268,7 @@ class ObjectRecognition:
 
             obj_centers.append([cX, cY])
         return obj_centers
+
+if __name__ == "__main__":
+    obj_detection = ObjectRecognition()
+    obj_detection.obj_recognize_with_previewImg()
