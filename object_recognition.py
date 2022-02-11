@@ -11,8 +11,9 @@ img_example = cv.imread('images/test_images/multi-obj1.bmp')
 # load a background, so we can extract it and make it easy to detect the object.
 img_bg = cv.imread('images/test_images/background.bmp')
 
-blur_after_difference = True        # True blurs picture after taking the difference, False blurs both images before
-use_adaptive_threshold = False      # True uses adaptive threshold, False uses original Otsu Threshold
+blur_after_difference = True  # True blurs picture after taking the difference, False blurs both images before
+use_adaptive_threshold = False  # True uses adaptive threshold, False uses original Otsu Threshold
+
 
 class ObjectRecognition:
     # OpenCV uses BGR while matplotlib uses RGB, so we need to make sure that put these conversion in so the picture
@@ -20,7 +21,7 @@ class ObjectRecognition:
 
     def __init__(self) -> None:
         pass
-    
+
     # We will be previewing images alongthe way, so lets create a function
     def previewImg(self, text, img_preview, grayscale=False):
         # plt.imshow(img_preview)
@@ -68,8 +69,9 @@ class ObjectRecognition:
             self.previewImg("diff_blur", diff_gray_blur, True)
 
         if use_adaptive_threshold:
-            img_tresh = cv.adaptiveThreshold(diff_gray_blur, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
-            img_tresh = -img_tresh + 255 # invert black/white to find contours with cv.findContours()
+            img_tresh = cv.adaptiveThreshold(diff_gray_blur, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11,
+                                             2)
+            img_tresh = -img_tresh + 255  # invert black/white to find contours with cv.findContours()
             self.previewImg("Adaptive Treshold", img_tresh, True)
 
         else:
@@ -175,10 +177,10 @@ class ObjectRecognition:
 
             center = (int(box[0][0] + 0.5 * (box[2][0] - box[0][0])), int(box[0][1] + 0.5 * (box[2][1] - box[0][1])))
             img_withrectangle = cv.circle(img=img_withrectangle,
-                                        center=center,
-                                        radius=5,
-                                        color=(0, 255, 0),
-                                        thickness=-1)
+                                          center=center,
+                                          radius=5,
+                                          color=(0, 255, 0),
+                                          thickness=-1)
 
             cv.drawContours(img_withrectangle, [box], 0, (0, 255, 0), 2)
             self.previewImg('Bounding Rectangle', img_withrectangle)
@@ -266,6 +268,3 @@ class ObjectRecognition:
 
             obj_centers.append([cX, cY])
         return obj_centers
-
-
-
