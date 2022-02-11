@@ -3,15 +3,16 @@
 
 import cv2 as cv
 import numpy as np
-import os
-import matplotlib.pyplot as plt
 
 # image with object
-img_example = cv.imread('images/28.01.22-try/multi1.bmp')
+
+img_example = cv.imread('images/test_images/multi-obj1.bmp')
 
 # load a background, so we can extract it and make it easy to detect the object.
-img_bg = cv.imread('images/28.01.22-try/background.bmp')
+img_bg = cv.imread('images/test_images/background.bmp')
 
+blur_after_difference = True        # True blurs picture after taking the difference, False blurs both images before
+use_adaptive_threshold = False      # True uses adaptive threshold, False uses original Otsu Threshold
 
 class ObjectRecognition:
     # OpenCV uses BGR while matplotlib uses RGB, so we need to make sure that put these conversion in so the picture
@@ -47,40 +48,34 @@ class ObjectRecognition:
         img_gray = cv.cvtColor(img_example, cv.COLOR_BGR2GRAY)
         self.previewImg("Image Gray", img_gray, True)
 
-        """
-        # Image blur after difference
-        
-        img_gray = cv.resize(img_gray, (img_bg_gray.shape[1], img_bg_gray.shape[0]))
-        # Calculate Difference
-        diff_gray = cv.absdiff(img_bg_gray, img_gray)
-        previewImg("Pre-Diff", diff_gray, True)
-        
-        # Diff Blur
-        diff_gray_blur = cv.GaussianBlur(diff_gray, (5, 5), 0)
-        previewImg("Pre-Diff Blur", diff_gray_blur, True)
-        
-        
-        """
-        # Image blur before difference
+        if blur_after_difference:
+            kernel_size = 123  # Has to be an odd divider of 255, e.g. 123, 51, 25
+            img_gray = cv.resize(img_gray, (img_bg_gray.shape[1], img_bg_gray.shape[0]))
+            # Calculate Difference
+            diff_gray = cv.absdiff(img_bg_gray, img_gray)
+            self.previewImg("Pre-Blur", diff_gray, True)
+            # Diff Blur
+            diff_gray_blur = cv.GaussianBlur(diff_gray, (kernel_size, kernel_size), 0)
+            self.previewImg("Diff Blur", diff_gray_blur, True)
 
-        kernel_size = 51  # Marc: never change a running system - 51 is a goog dividend for the pixel size
-        bg_blur = cv.GaussianBlur(img_bg_gray, (kernel_size, kernel_size), 0)
-        img_blur = cv.GaussianBlur(img_gray, (kernel_size, kernel_size), 0)
-        self.previewImg("Pre-Diff", img_blur, True)
+        else:
+            kernel_size = 51  # Has to be an odd divider of 255, e.g. 123, 51, 25
+            bg_blur = cv.GaussianBlur(img_bg_gray, (kernel_size, kernel_size), 0)
+            img_blur = cv.GaussianBlur(img_gray, (kernel_size, kernel_size), 0)
+            self.previewImg("Pre-Diff", img_blur, True)
+            # Calculate Difference
+            diff_gray_blur = cv.absdiff(bg_blur, img_blur)
+            self.previewImg("diff_blur", diff_gray_blur, True)
 
-        # Calculate Difference
-        diff_gray_blur = cv.absdiff(bg_blur, img_blur)
-        self.previewImg("diff_blur", diff_gray_blur, True)
+        if use_adaptive_threshold:
+            img_tresh = cv.adaptiveThreshold(diff_gray_blur, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
+            img_tresh = -img_tresh + 255 # invert black/white to find contours with cv.findContours()
+            self.previewImg("Adaptive Treshold", img_tresh, True)
 
-        # old computation:
-        # find otsu's threshold value with OpenCV function
-        ret, img_tresh = cv.threshold(diff_gray_blur, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
-
-        # new computation:
-        # using adaptive threshold
-        # img_tresh = cv.adaptiveThreshold(diff_gray_blur,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C,cv.THRESH_BINARY,11,2)
-        # img_tresh = -img_tresh + 255
-        # previewImg("Otsu Treshold", img_tresh, True)
+        else:
+            # find otsu's threshold value with OpenCV function
+            ret, img_tresh = cv.threshold(diff_gray_blur, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+            self.previewImg("Otsu Treshold", img_tresh, True)
 
         # let's now draw the contour
         # print("img_tresh:{}, Retr_ext:{}, Chain_aprox:{} ".format(img_tresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE))
