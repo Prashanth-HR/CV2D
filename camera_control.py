@@ -44,12 +44,7 @@ class Camera:
                 if result.GrabSucceeded():
                     # Access the image data.
                     img = result.Array
-                    # print("Gray value of first pixel: ", img[0, 0])
-                    # Image.fromarray(result.Array).save("./images/image.bmp")
-                    # print("saved image")
-
                     camera.StopGrabbing()
-
                     return img
                 else:
                     print("Error: ", result.ErrorCode, result.ErrorDescription)
@@ -66,10 +61,15 @@ if __name__ == "__main__":
     camera = Camera()
     img = camera.get_image()
 
-    # Show the image
+    # Show image
     print('Dimensions : ', img.shape)
     cv2.namedWindow("img", cv2.WINDOW_NORMAL)
     cv2.imshow("img", img)
     # need to press a key to get the next image, by the last one the program will exit.
     cv2.waitKey(0)
+
+    # Save Image
+    print("Gray value of first pixel: ", img[0, 0])
+    Image.fromarray(img).save("./images/image.bmp")
+    print("saved image")
     cv2.destroyAllWindows()

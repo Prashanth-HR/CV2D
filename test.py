@@ -1,5 +1,7 @@
 import numpy as np
 import cv2 as cv
+from PIL import Image
+
 from camera_control import Camera
 
 from camera_toXYZ import camera_realtimeXYZ
@@ -11,21 +13,28 @@ def main():
     camera = Camera()
     
     
-    # load a background, so we can extract it and make it easy to detect the object.
-    img_bg = cv.imread('images/background.bmp')
+    
 
 
     # Programatically take pictures and use those image
     # img = cv.imread('images/image.bmp')
     img = camera.get_image()
+    cv.namedWindow("img", cv.WINDOW_NORMAL)
+    cv.imshow("img", img)
+    cv.waitKey(0)
 
+    Image.fromarray(img).save("./images/image.bmp")
+
+    # load a background and img
+    img_bg = cv.imread('images/background.bmp')
+    img = cv.imread('images/image.bmp')
     # Get pixel centers of the detected objs
-    cordPixels = obj_recognition.obj_recognize_with_previewImg(img, img_bg)
+    cordPixels = obj_recognition.obj_recognize(img, img_bg)
     
     # Convert the pixel centers to 3D cords
     cord3D = [cameraXYZ.calculate_XYZ(*cord2D) for cord2D in cordPixels]
     
-    print(np.squeeze(cord3D))
+    print(cord3D)
     
     return np.squeeze(cord3D)
 

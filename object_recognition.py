@@ -5,11 +5,10 @@ import cv2 as cv
 import numpy as np
 
 # image with object
-
-img_example = cv.imread('images/test_images/multi-obj1.bmp')
+img_example = cv.imread('images/image.bmp')
 
 # load a background, so we can extract it and make it easy to detect the object.
-img_bg = cv.imread('images/test_images/background.bmp')
+img_bg = cv.imread('images/background.bmp')
 
 blur_after_difference = True  # True blurs picture after taking the difference, False blurs both images before
 use_adaptive_threshold = False  # True uses adaptive threshold, False uses original Otsu Threshold
@@ -33,7 +32,7 @@ class ObjectRecognition:
             img_preview = cv.cvtColor(img_preview, cv.COLOR_GRAY2RGB)
         cv.namedWindow(text, cv.WINDOW_NORMAL)
         cv.imshow(text, img_preview)
-        print('Dimensions : ', img_preview.shape)
+        # print('Dimensions : ', img_preview.shape)
         # need to press a key to get the next image, by the last one the program will exit.
         cv.waitKey(0)
 
@@ -50,7 +49,7 @@ class ObjectRecognition:
         self.previewImg("Image Gray", img_gray, True)
 
         if blur_after_difference:
-            kernel_size = 123  # Has to be an odd divider of 255, e.g. 123, 51, 25
+            kernel_size = 255  # Has to be an odd divider of 255, e.g. 123, 51, 25
             img_gray = cv.resize(img_gray, (img_bg_gray.shape[1], img_bg_gray.shape[0]))
             # Calculate Difference
             diff_gray = cv.absdiff(img_bg_gray, img_gray)
@@ -184,8 +183,8 @@ class ObjectRecognition:
                                           thickness=-1)
 
             cv.drawContours(img_withrectangle, [box], 0, (0, 255, 0), 2)
-            self.previewImg('Bounding Rectangle', img_withrectangle)
-            obj_centers.append([cX, cY])
+            obj_centers.append(center)
+        self.previewImg('Bounding Rectangle', img_withrectangle)
         cv.destroyAllWindows()
         return obj_centers
 
@@ -197,13 +196,13 @@ class ObjectRecognition:
         img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         img_gray = cv.resize(img_gray, (img_bg_gray.shape[1], img_bg_gray.shape[0]))
         diff_gray = cv.absdiff(img_bg_gray, img_gray)
-        diff_gray_blur = cv.GaussianBlur(diff_gray, (5, 5), 0)
+        diff_gray_blur = cv.GaussianBlur(diff_gray, (255, 255), 0)
 
         ret, img_tresh = cv.threshold(diff_gray_blur, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
         arr_cnt, hirearchy = cv.findContours(img_tresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
         # get the dimensions of the image
-        height, width, channels = img.shape
+        height, width = img_gray.shape
 
         # shorten the variable names
         w = width
@@ -250,6 +249,7 @@ class ObjectRecognition:
 
         # Iterate for all the detected valid contours and find centers
         obj_centers = []
+        img_withrectangle = img.copy()
         for i in validcontours:
             c = arr_cnt[i]
 
@@ -268,10 +268,17 @@ class ObjectRecognition:
             #  cv.circle(img_withrectangle, (cX, cY), 7, (255, 255, 255), -1)
             #  cv.putText(img_withrectangle, "center", (cX - 20, cY - 20),
             #         cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-
+            img_withrectangle = cv.circle(img=img_withrectangle,
+                                          center=(cX, cY),
+                                          radius=5,
+                                          color=(0, 255, 0),
+                                          thickness=-1)
+            cv.drawContours(img_withrectangle, [box], 0, (0, 255, 0), 2)
             obj_centers.append([cX, cY])
+
+        self.previewImg('Bounding Rectangle', img_withrectangle)
         return obj_centers
 
 if __name__ == "__main__":
     obj_detection = ObjectRecognition()
-    obj_detection.obj_recognize_with_previewImg()
+    obj_detection.obj_recognize(img_example, img_bg)
