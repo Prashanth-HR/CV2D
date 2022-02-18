@@ -195,3 +195,6 @@ class Robot_Receiver:
         return raw_linear_value * 1e-6
 
 
+if __name__ == "__main__":
+    receiver = Robot_Receiver()
+    receiver.main()

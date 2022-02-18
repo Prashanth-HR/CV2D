@@ -3,6 +3,7 @@ import socket
 
 import cv2 as cv
 import numpy as np
+from camera_control import Camera
 
 from camera_toXYZ import camera_realtimeXYZ
 from object_recognition import ObjectRecognition
@@ -13,6 +14,7 @@ transmitter =  Robot_Transmitter()
 receiver = Robot_Receiver()
 cameraXYZ = camera_realtimeXYZ()
 obj_recognition = ObjectRecognition()
+camera = Camera()
 
 
 def main():
@@ -22,6 +24,8 @@ def main():
     # Go to the Precalibrated position .1, .1, .1 and orientation .0, .0, pi.
     orientation = [-3*math.pi/4, .0, math.pi]
     calibrated_position = [-600, -300, 600, *orientation]
+    release_obj_pos = [-600, -300, 70, *orientation]
+
     # calibrated_position = [-600, -300, 600, -135, 0, 180]
 
     # Command the robot to move to position .1, .1, .1 and orientation
@@ -30,8 +34,9 @@ def main():
     tx_socket.sendto(message, (transmitter.IP_ADDR, transmitter.PORT))
 
     # Connect to camera and take a picture
-    img = cv.imread('images/test_images/multi-obj1.bmp')
-    img_bg = cv.imread('images/test_images/background.bmp')
+    # img = cv.imread('images/test_images/multi-obj1.bmp')
+    img = camera.get_image()
+    img_bg = cv.imread('images/background.bmp')
 
     # Run obj_detection and 2D>3D conversion ,returns => an array(pos_3D) of detected 3D coordinates
     # Get pixel centers of the detected objs
@@ -45,23 +50,24 @@ def main():
         # for constant Z value
         position[2] = 70
         # append the orientation
-        # np.concatenate(position, np.array([-3*math.pi/4, .0, math.pi]))
-        print([*position,-3*math.pi/4, .0, math.pi])
-        # For each detected point => move to the position  
-        # Command the robot to move to position .1, .1, .1 and orientation
-        # (intrinsic ZYX Euler angles) .0, .0, pi.
         message = transmitter.generate_set_pose_abs_message(1, 50, 120, [*position, *orientation])
         tx_socket.sendto(message, (transmitter.IP_ADDR, transmitter.PORT))
 
         # => start the gripper suction
-    
+        message = transmitter.generate_set_output_message(0, True)
+        tx_socket.sendto(message, (transmitter.IP_ADDR, transmitter.PORT))
 
         # => Move to a diff position to release obj 
-        message = transmitter.generate_set_pose_abs_message(1, 50, 120, calibrated_position)
+        message = transmitter.generate_set_pose_abs_message(1, 50, 120, release_obj_pos)
+        tx_socket.sendto(message, (transmitter.IP_ADDR, transmitter.PORT))
+
+        # => start the gripper suction
+        message = transmitter.generate_set_output_message(0, False)
         tx_socket.sendto(message, (transmitter.IP_ADDR, transmitter.PORT))
 
         # => go to pre-calibrated position 
-
+        message = transmitter.generate_set_pose_abs_message(1, 50, 120, calibrated_position)
+        tx_socket.sendto(message, (transmitter.IP_ADDR, transmitter.PORT))
 
         # => continue loop for next obj
 

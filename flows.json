@@ -36,13 +36,13 @@
         "type": "function",
         "z": "62cfd336ec9275a4",
         "name": "CV2D",
-        "func": "const robot = msg.robot;\nvar httpResp = msg.payload;\n// var httpResp = { \"Coordinates\": [\n//                         [-553, -242, 70, -135, 0, 180],\n//                         [-600, -300, 600, -135, 0, 180],\n//                         [-690, -132, 70, -135, 0, 180],\n//                         [-600, -300, 600, -135, 0, 180],\n//                         [-641, -380, 70, -135, 0, 180],\n//                         ] }\n// node.warn(httpResp)\nconst ref_position = []\nconst drop_position = []\nlet cords3D = httpResp.Coordinates\n\n// Translate the robot the calculated 3d positions\n\ncords3D.forEach(coordinate => {\n    // ref : https://docs.robco.de/sections/text_based_programming.html\n    coordinate[2] = 70  // Constant z\n    coordinate.push(-135, 0, 180)   // Orientation\n    node.warn(coordinate)\n    node.warn(\"----------------  Moving  Start -------------\")\n    // robot.setPose(coordinate, 2, 200, 200);\n    \n    // Initiate suction\n    robot.setOutput(1, 1);\n    \n    // Move to a diff point point\n    robot.setPose(drop_position, 2, 200, 200);\n    \n    // Release the suction\n    robot.setOutput(1, 0);\n\n    // Move to ref position\n    robot.setPose(ref_position, 2, 200, 200);\n\n    \n});\n\nnode.warn(\"----------------  Moving  End -------------\")\n\n\n\nreturn msg;",
+        "func": "var httpResp = msg.payload;\n// var httpResp = { \"Coordinates\": [\n//                         [-553, -242, 70, -135, 0, 180],\n//                         [-600, -300, 600, -135, 0, 180],\n//                         [-690, -132, 70, -135, 0, 180],\n//                         [-600, -300, 600, -135, 0, 180],\n//                         [-641, -380, 70, -135, 0, 180],\n//                         ] }\n\nlet cords3D = httpResp.Coordinates\nnode.warn(cords3D)\nvar calibrated_orientation = [-135, 0, 180]\nvar calibrated_pos = [-600, -300, 600, -135, 0, 180]\nvar release_obj_pos = [-600, -300, 70, -135, 0, 180]\n\n// Translate the robot the calculated 3d positions\n\nconst robot = msg.robot;\n\n\ncords3D.forEach(coordinate => {\n\n    console.log(\"----------------  Moving  Start -------------\")\n    \n    // set depth to fixed value and append orientatio\n    coordinate[2] = 70\n    coordinate = coordinate.concat(calibrated_orientation)\n    \n    // Move to pick the obj\n    robot.setPose(coordinate, 2, 200, 200);\n    // Initiate suction\n    setOutput(1, 0);\n    // Move to release position\n    robot.setPose(release_obj_pos, 2, 200, 200);\n    // Stop suction \n    setOutput(1, 1);\n    // Move to calibrated position\n    robot.setPose(calibrated_pos, 2, 200, 200);  \n    \n    console.log(\"----------------  Moving  End -------------\")\n});\n\n\n\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 770,
+        "x": 690,
         "y": 160,
         "wires": [
             [
@@ -77,10 +77,7 @@
         "x": 410,
         "y": 160,
         "wires": [
-            [
-                "a9965b4d9af20e7a",
-                "1b0f1b8526882347"
-            ]
+            []
         ]
     },
     {
@@ -129,7 +126,7 @@
         "proxy": "",
         "authType": "",
         "senderr": false,
-        "x": 610,
+        "x": 710,
         "y": 300,
         "wires": [
             [
@@ -151,7 +148,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 880,
+        "x": 940,
         "y": 300,
         "wires": []
     },
@@ -176,7 +173,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 340,
+        "x": 420,
         "y": 300,
         "wires": [
             [
