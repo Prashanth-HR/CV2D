@@ -37,7 +37,7 @@ class ObjectRecognition:
         # need to press a key to get the next image, by the last one the program will exit.
         cv.waitKey(0)
 
-    def obj_recognize_with_previewImg(self):
+    def obj_recognize_with_previewImg(self, img_bg, img_example):
         # our starting Point
         self.previewImg('Background Image', img_bg)
         self.previewImg('Example Image', img_example)
@@ -164,6 +164,7 @@ class ObjectRecognition:
         #     previewImg('Contours', img_withcontours)
 
         # Display a Bounding Rectangle
+        obj_centers = []
         img_withrectangle = img_example.copy()
         for i in validcontours:
             # option orientation of the image:
@@ -184,8 +185,10 @@ class ObjectRecognition:
 
             cv.drawContours(img_withrectangle, [box], 0, (0, 255, 0), 2)
             self.previewImg('Bounding Rectangle', img_withrectangle)
-
+            obj_centers.append([cX, cY])
         cv.destroyAllWindows()
+        return obj_centers
+
 
     def obj_recognize(self, img, img_bg):
         # This method is for final run without any preview image popup's

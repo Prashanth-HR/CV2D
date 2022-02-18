@@ -19,41 +19,11 @@ class Robot_Transmitter:
     def main(self):
         tx_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         
-        # Command a two joint robot to move to joint angles -.2 .2 .
-        message = self.generate_set_joint_abs_message(1, 250, 120, [-.2, .2])
+        orientation = [-3*math.pi/4, .0, math.pi]
+        calibrated_position = [-700, -300, 600, *orientation]
+        message = self.generate_set_pose_abs_message(2, 50, 120, calibrated_position)
         tx_socket.sendto(message, (self.IP_ADDR, self.PORT))
 
-    #    # Command the robot to move to position .1, .1, .1 and orientation
-    #    # (intrinsic ZYX Euler angles) .0, .0, pi.
-    #    message = generate_set_pose_abs_message(1, 50, 120, [.1, .1, .1, .0, .0,
-    #                                                          math.pi])
-    #    tx_socket.sendto(message, (IP_ADDR, PORT))
-
-    #    # Jog joint 0 and joint 1. Keep the offsets low!
-    #    # Forward.
-    #    for idx in range(100):
-    #        message = generate_set_joint_offs_message([.0005, .0005])
-    #        tx_socket.sendto(message, (IP_ADDR, PORT))
-    #        time.sleep(.01)
-    #    # Backward.
-    #    for idx in range(100):
-    #        message = generate_set_joint_offs_message([-.0005, -.0005])
-    #        tx_socket.sendto(message, (IP_ADDR, PORT))
-    #        time.sleep(.01)
-
-    #    # Set output 0 to enabled state.
-    #    message = generate_set_output_message(0, True)
-    #    tx_socket.sendto(message, (IP_ADDR, PORT))
-
-    #    # Enable gravity compensation for a few seconds.
-    #    for idx in range(500):
-    #        message = generate_set_g_compensation_message()
-    #        tx_socket.sendto(message, (IP_ADDR, PORT))
-    #        time.sleep(.01)
-
-    #    # Command the robot to stop all current and pending actions.
-    #    message = generate_set_stop_message()
-    #    tx_socket.sendto(message, (IP_ADDR, PORT))
 
 
 

@@ -44,9 +44,9 @@ class Camera:
                 if result.GrabSucceeded():
                     # Access the image data.
                     img = result.Array
-                    print("Gray value of first pixel: ", img[0, 0])
-                    Image.fromarray(result.Array).save("./images/images.png")
-                    print("saved image")
+                    # print("Gray value of first pixel: ", img[0, 0])
+                    # Image.fromarray(result.Array).save("./images/image.bmp")
+                    # print("saved image")
 
                     camera.StopGrabbing()
 
