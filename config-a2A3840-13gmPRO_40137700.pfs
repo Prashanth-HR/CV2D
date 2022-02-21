@@ -15,7 +15,7 @@ PixelFormat	Mono8
 TestPattern	Off
 ImageCompressionMode	Off
 BslAcquisitionStopMode	AbortExposure
-ExposureTime	999993.0
+ExposureTime	49998.0
 ExposureAuto	Continuous
 ExposureMode	Timed
 BslSensorBitDepthMode	Auto

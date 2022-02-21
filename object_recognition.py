@@ -3,6 +3,7 @@
 
 import cv2 as cv
 import numpy as np
+from PIL import Image
 
 # image with object
 img_example = cv.imread('images/image.bmp')
@@ -196,7 +197,7 @@ class ObjectRecognition:
         img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         img_gray = cv.resize(img_gray, (img_bg_gray.shape[1], img_bg_gray.shape[0]))
         diff_gray = cv.absdiff(img_bg_gray, img_gray)
-        diff_gray_blur = cv.GaussianBlur(diff_gray, (255, 255), 0)
+        diff_gray_blur = cv.GaussianBlur(diff_gray, (501, 501), 0)
 
         ret, img_tresh = cv.threshold(diff_gray_blur, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
         arr_cnt, hirearchy = cv.findContours(img_tresh, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
@@ -276,7 +277,8 @@ class ObjectRecognition:
             cv.drawContours(img_withrectangle, [box], 0, (0, 255, 0), 2)
             obj_centers.append([cX, cY])
 
-        self.previewImg('Bounding Rectangle', img_withrectangle)
+        #self.previewImg('Bounding Rectangle', img_withrectangle)
+        Image.fromarray(img).save("./images/image_boundingbox.bmp")
         return obj_centers
 
 if __name__ == "__main__":

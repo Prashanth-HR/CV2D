@@ -19,9 +19,9 @@ def main():
     # Programatically take pictures and use those image
     # img = cv.imread('images/image.bmp')
     img = camera.get_image()
-    cv.namedWindow("img", cv.WINDOW_NORMAL)
-    cv.imshow("img", img)
-    cv.waitKey(0)
+    #cv.namedWindow("img", cv.WINDOW_NORMAL)
+    #cv.imshow("img", img)
+    #cv.waitKey(0)
 
     Image.fromarray(img).save("./images/image.bmp")
 
