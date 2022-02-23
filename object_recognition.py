@@ -278,7 +278,7 @@ class ObjectRecognition:
             obj_centers.append([cX, cY])
 
         #self.previewImg('Bounding Rectangle', img_withrectangle)
-        Image.fromarray(img).save("./images/image_boundingbox.bmp")
+        Image.fromarray(img_withrectangle).save("./images/image_boundingbox.bmp")
         return obj_centers
 
 if __name__ == "__main__":
