@@ -4,7 +4,7 @@ from PIL import Image
 
 from camera_control import Camera
 
-from camera_toXYZ import camera_realtimeXYZ
+from cam_calibration.camera_toXYZ import camera_realtimeXYZ
 from object_recognition import ObjectRecognition
 
 def main():

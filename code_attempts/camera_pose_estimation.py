@@ -1,4 +1,4 @@
-# https://docs.opencv.org/4.x/d7/d53/tutorial_py_pose.html
+# Reference: https://docs.opencv.org/4.x/d7/d53/tutorial_py_pose.html
 import numpy as np
 import cv2 as cv
 import glob

@@ -1,9 +1,8 @@
-#https://docs.opencv.org/3.3.0/dc/dbb/tutorial_py_calibration.html
+# Reference: https://docs.opencv.org/3.3.0/dc/dbb/tutorial_py_calibration.html
 
 import numpy as np
 import cv2
-import glob
-from camera_toXYZ import camera_realtimeXYZ
+from cam_calibration.camera_toXYZ import camera_realtimeXYZ
 
 
 cameraXYZ=camera_realtimeXYZ()
