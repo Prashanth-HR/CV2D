@@ -26,6 +26,8 @@ The code is in **test.py** file under ***main()*** method
 
 
 
+## NodeRed Interface flow
+- import **flows.json** into the NodeRed interface to import the flow. If needed, one can change the url param in the http node to a diff value depending upon where u run server.py script. 
 
 ##### Object Detection Ref:
 - https://github.com/pacogarcia3/hta0-horizontal-robot-arm/blob/master/README.md
