@@ -15,14 +15,15 @@ Building a Modular Robot
 
 - Flask - $ pip install flask
 
-## 2. Calibration and testing
-- [docs](/cam_calibration/README.md) run the scripts available under *./cam_calibration/* 
-- [camera config](/config-a2A3840-13gmPRO_40137700.pfs)
+## 2. Calibrate the camera and test the CV2D code locally
+- [calibration readme](/cam_calibration/README.md)
+    - run the scripts available under *./cam_calibration/* 
+- [camera configurations](/config-a2A3840-13gmPRO_40137700.pfs)
 - when the camera is successfully calibrated, the calibration data is stored under *./camera_data/*
 - To capture images from the Basler camera, run *$ python camera_control.py*. The script used *config-a2A3840-13gmPRO_40137700.pfs* for camera configurations.
 - To test the object recognition locally, run *$ python object_recognition.py* 
     - change the background image param(*img_bg*) and sample image param(*img_example*) in the script to desired values.
-- Assuming that the camera calibrated by running all the calibration scriprts, test the CV2D code by running *$ python test.py*.
+- Assuming that the camera is calibrated by running all the calibration scriprts, test the CV2D code by running *$ python test.py*.
 
 
 ## 3. To Run the algorithm as a service
@@ -40,3 +41,5 @@ Building a Modular Robot
 - NodeRED 
     - graphical programming : https://docs.robco.de/sections/node_programming.html
     - test based programming : https://docs.robco.de/sections/text_based_programming.html
+
+Additionally, We also tried different state of the art object detection and matching algorithms and the results are documented [here.](/code_attempts/README.md)

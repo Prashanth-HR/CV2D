@@ -10,7 +10,7 @@
 ### 2. initial_perspective_calibration.py
 - it is used to calibrate the presepective projection on the camera setting including the depth to the object plane.
 - use perspective calibration [pattern](./pattern/perspective_pattern.pdf)
-- during the prespective calibration, if any pixel coordinate is needed, one can run *cvImage.py* and get the desired pixel coordinate.
+- during the prespective calibration, if any pixel coordinate is needed, run *$ python cvImage.py* and get the desired pixel coordinate.
 - for more information follow the instructions under: https://docs.opencv.org/3.3.0/dc/dbb/tutorial_py_calibration.html
 
 ### 3. camera_toXYZ.py
