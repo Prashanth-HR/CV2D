@@ -13,11 +13,14 @@ Building a Modular Robot
 - OpenCV - $ sudo apt-get install python3-opencv
     - ref : https://docs.opencv.org/4.x/d2/de6/tutorial_py_setup_in_ubuntu.html
 
-- Flase - $ pip install flask
+- Flask - $ pip install flask
 
-## 2. Assuming that u have calibrated the camera by running the calibration scriprts in /cam_calibration
-
-The code is in **test.py** file under ***main()*** method
+## 2. Calibration and testing
+- run the scripts available under *./cam_calibration/*
+- when the camera is successfully calibrated, it's calibration data is stored under *./camera_data/*
+- To capture images from the Basler camera, run *./camera_control.py*. It used the camera configurations under *./config-a2A3840-13gmPRO_40137700.pfs*
+- To test the object recognition locally, run *./object_recognition.py* bu changing the background image param(*img_bg*) and sample image param(*img_example*).
+- Assuming that u have calibrated the camera by running the calibration scriprts, u can run test the code locally buy running *test.py* script. The code is in **test.py** file under ***main()*** method
 
 
 ## 3. To Run the algorithm as a service
