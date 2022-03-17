@@ -26,3 +26,6 @@ For each 3d point, the script triggers a set of robot actions vis UDP messages.
 
 
 # The UDP comminication is not fully tested..  
+
+##### Resources
+UDP Interface - https://docs.robco.de/sections/udp_interface.html
