@@ -17,7 +17,7 @@ It is a feature matching technique built using SIFT (Scale Invariant Feature-Tra
 The features from both the model image and the scene image are matched using the matching algorithm FLANN. If the number of matched features are above a certain threshold, the object will be detected and localized. If there are any good matches they are drawn on the images and diaplayed on a openCV image window.
 
 Test results: 
-![image-1.png](./image-1.png)
+![image-5.png](./image-5.png)
 
 ## homography_feature_detection.py
 
