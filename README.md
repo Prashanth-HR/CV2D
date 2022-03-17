@@ -43,6 +43,9 @@ Building a Modular Robot
 - open the imported flow named **CV2D**
 - change the param in the http node to the url obtained from running *server.py* script. 
 
+# CAD Models
+- The CAD models of the Robot end of Arm, camera along with its assembly can be found [here](/CAD_files/README.md)
+
 
 ##### Resources 
 - Object Detection Ref: https://github.com/pacogarcia3/hta0-horizontal-robot-arm/blob/master/README.md
