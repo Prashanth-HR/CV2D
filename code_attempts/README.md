@@ -17,7 +17,7 @@ It is a feature matching technique built using SIFT (Scale Invariant Feature-Tra
 The features from both the model image and the scene image are matched using the matching algorithm FLANN. If the number of matched features are above a certain threshold, the object will be detected and localized. If there are any good matches they are drawn on the images and diaplayed on a openCV image window.
 
 Test results: 
-![image-5.png](./docs/image-5.png)
+![FLANN_feature_matching](./docs/image-5.png)
 
 ## homography_feature_detection.py
 
@@ -28,10 +28,10 @@ Even-though the SURF detector is robust, it is not open source.
 
 Test results : 
 - Positive matches:
-![image-3.png](./docs/image-3.png)
+![positive homography_feature_detection](./docs/image-3.png)
 
 - Negative matches: 
-![image-4.png](./docs/image-4.png)
+![negative homography_feature_detection](./docs/image-4.png)
 
 
 ## mediapipe_detection.py
@@ -40,4 +40,4 @@ Addition to object detection, this method can do pose estimation and localizatio
 - The script activate the webcam and tries to detect and localize the objects using *objectron.process(image)* from the camera video feed. It works realtime with better performance only with RGB images. 
 - When an object is detected, it draws a 3d bounding box along with axes on the image.
 Test results:
-![image-2.png](./image-2.png)
+![mediapipe_detection](./image-2.png)

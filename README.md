@@ -16,21 +16,27 @@ Building a Modular Robot
 - Flask - $ pip install flask
 
 ## 2. Calibration and testing
-- run the scripts available under *./cam_calibration/*
-- when the camera is successfully calibrated, it's calibration data is stored under *./camera_data/*
-- To capture images from the Basler camera, run *./camera_control.py*. It used the camera configurations under *./config-a2A3840-13gmPRO_40137700.pfs*
-- To test the object recognition locally, run *./object_recognition.py* bu changing the background image param(*img_bg*) and sample image param(*img_example*).
-- Assuming that u have calibrated the camera by running the calibration scriprts, u can run test the code locally buy running *test.py* script. The code is in **test.py** file under ***main()*** method
+- [docs](/cam_calibration/README.md) run the scripts available under *./cam_calibration/* 
+- [camera config](/config-a2A3840-13gmPRO_40137700.pfs)
+- when the camera is successfully calibrated, the calibration data is stored under *./camera_data/*
+- To capture images from the Basler camera, run *$ python camera_control.py*. The script used *config-a2A3840-13gmPRO_40137700.pfs* for camera configurations.
+- To test the object recognition locally, run *$ python object_recognition.py* 
+    - change the background image param(*img_bg*) and sample image param(*img_example*) in the script to desired values.
+- Assuming that the camera calibrated by running all the calibration scriprts, test the CV2D code by running *$ python test.py*.
 
 
 ## 3. To Run the algorithm as a service
 
-- run $ python server.py
+- run *$ python server.py*
 
 
+## NodeRed Integration
+- import [flows.json](/flows.json) into the NodeRed interface. 
+- change the url param in the http node to the url obtained from running *server.py* script. 
 
-## NodeRed Interface flow
-- import **flows.json** into the NodeRed interface to import the flow. If needed, one can change the url param in the http node to a diff value depending upon where u run server.py script. 
 
-##### Object Detection Ref:
-- https://github.com/pacogarcia3/hta0-horizontal-robot-arm/blob/master/README.md
+##### Resources 
+- Object Detection Ref: https://github.com/pacogarcia3/hta0-horizontal-robot-arm/blob/master/README.md
+- NodeRED 
+    - graphical programming : https://docs.robco.de/sections/node_programming.html
+    - test based programming : https://docs.robco.de/sections/text_based_programming.html
