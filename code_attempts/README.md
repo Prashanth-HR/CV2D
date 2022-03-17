@@ -31,7 +31,7 @@ Addition to object detection, this method can do pose estimation and localizatio
 - The script activate the webcam and tries to detect and localize the objects using *objectron.process(image)* from the camera video feed. It works realtime with better performance only with RGB images. 
 - When an object is detected, it draws a 3d bounding box along with axes on the image.
 Test results:
-![mediapipe_detection](./image-2.png)
+![mediapipe_detection](./docs/image-2.png)
 
 
 ##### Resources 
