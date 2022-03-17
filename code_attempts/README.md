@@ -1,14 +1,5 @@
 # Code attempts : This directory contains the algorithims we tried but didnot proceede ahead with.
 
-## Resources 
-- FLANN - https://docs.opencv.org/4.x/d5/d6f/tutorial_feature_flann_matcher.html
-- SURF - https://docs.opencv.org/4.x/d7/d66/tutorial_feature_detection.html
-- SIFT - Research paper titled “Object recognition from local scale-invariant features”
-    - Authors : D. G. Lowe
-- mediapipe - Research paper titled “Mo-bilepose: Real-time pose estimation for unseen objects with weak shapesupervision"
-    - Authors: Hou, A. Ahmadyan, L. Zhang, J. Wei, and M. Grundmann,  
-
-
 ## FLANN_feature_matching.py
 
 It is a feature matching technique built using SIFT (Scale Invariant Feature-Transform). It requires 2 images, 
@@ -41,3 +32,12 @@ Addition to object detection, this method can do pose estimation and localizatio
 - When an object is detected, it draws a 3d bounding box along with axes on the image.
 Test results:
 ![mediapipe_detection](./image-2.png)
+
+
+##### Resources 
+- FLANN - https://docs.opencv.org/4.x/d5/d6f/tutorial_feature_flann_matcher.html
+- SURF - https://docs.opencv.org/4.x/d7/d66/tutorial_feature_detection.html
+- SIFT - Research paper titled “Object recognition from local scale-invariant features”
+    - Authors : D. G. Lowe
+- mediapipe - Research paper titled “Mo-bilepose: Real-time pose estimation for unseen objects with weak shapesupervision"
+    - Authors: Hou, A. Ahmadyan, L. Zhang, J. Wei, and M. Grundmann,  
