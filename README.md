@@ -1,4 +1,9 @@
 # Modular Robotics - CV2D
+
+
+[![Youtube](https://img.youtube.com/vi/n5nJ0fD-9cw&list=PLSSe2TLLn1zZ8ZKM-Td647Yp7wbBAvE2d/0.jpg)](https://www.youtube.com/watch?v=n5nJ0fD-9cw&list=PLSSe2TLLn1zZ8ZKM-Td647Yp7wbBAvE2d)
+
+
 Building a Modular Robot
 
 - Develop a robust detection and localization solution based on supplied demo parts
